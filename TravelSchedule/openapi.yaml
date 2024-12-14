@@ -259,6 +259,116 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NearestSettlement'
+  /v3.0/carrier/:
+    get:
+      tags:
+      - getCarrierDescription
+      summary: Информация о перевозчике по указанному коду перевозчика
+      operationId: getCarrierDescription 
+      parameters:
+      - name: apikey
+        in: query
+        description: API key
+        required: true
+        schema:
+          type: string
+      - name: code
+        in: query
+        description: Код перевозчика
+        required: true
+        schema:
+          type: string
+      - name: system
+        in: query
+        description: Система кодирования, в которой указывается код перевозчика
+        required: false
+        schema:
+          type: string
+          enum:
+            - yandex
+            - iata
+            - sirena
+            - express
+            - esr
+      - name: format
+        in: query
+        description: json или xml
+        required: false
+        schema:
+          type: string
+      - name: lang
+        in: query
+        description: Язык возвращаемой информации "ru_RU"
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carriers'
+  /v3.0/stations_list/:
+    get: 
+      tags:
+      - getStationsList
+      summary: Полный список станций, информацию о которых предоставляют Яндекс Расписания
+      operationId: getStationsList
+      parameters:
+      - name: apikey
+        in: query
+        description: API key
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: json или xml
+        required: false
+        schema:
+          type: string
+      - name: lang
+        in: query
+        description: Язык возвращаемой информации "ru_RU"
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StationsList'
+            text/html:
+              schema: {}
+  /v3.0/copyright/:
+    get:
+      tags:
+      - getCopyrightInfo
+      summary: Данные о Яндекс Расписаниях
+      operationId: getCopyrightInfo
+      parameters:
+      - name: apikey
+        in: query
+        description: API key
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: json или xml
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Copyright'
 components:
   schemas:
     Pagination:
@@ -502,6 +612,7 @@ components:
           type: string  
         logo_svg:
           type: string
+          nullable: true
         title:
           type: string
         phone:
@@ -766,41 +877,119 @@ components:
           type: number
         type:
           type: string
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+                    
+#Carriers
+
+    Carriers:
+      type: object
+      properties:
+        carrier:
+          $ref: '#/components/schemas/Carrier'
+        carriers:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Carrier'
+
+
+#Stations list
+
+    Country:
+      type: object
+      properties:
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Region'
+        codes:   
+          $ref: '#/components/schemas/StationCodes'
+        title:
+          type: string
+    Region:
+      type: object
+      properties:
+        settlements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Settlement'
+        codes:
+          $ref: '#/components/schemas/StationCodes'
+        title:
+          type: string
+    Settlement:
+      type: object
+      properties:
+        stations:
+          type: array
+          items: 
+            $ref: '#/components/schemas/SettlementStation'
+        codes:
+          $ref: '#/components/schemas/StationCodes'
+        title:
+          type: string
+    StationCodes:
+      type: object
+      requered: false
+      properties:
+        esr_code:
+          type: string
+          nullable: true
+        yandex_code:
+          type: string
+          nullable: true
+    SettlementStation:
+      type: object
+      properties:
+        direction:
+          type: string
+        codes: 
+          $ref: '#/components/schemas/StationCodes'
+        station_type:
+          type: string
+        title:
+          type: string
+        longitude:
+          oneOf:
+            - type: number
+            - type: string
+        latitude:
+          oneOf:
+            - type: number
+            - type: string
+        transport_type:
+          type: string
+    StationsList:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
         
-          
+#Copyright
+
+    Copyright:
+      type: object
+      properties:
+        copyright:
+          $ref: '#/components/schemas/CopyrightInfo'
+    
+    CopyrightInfo:
+      type: object
+      properties:
+        text:
+          type: string
+        url:
+          type: string
+        logo_vy:
+          type: string
+        logo_vm:
+          type: string
+        logo_vd:
+          type: string  
+        logo_hy:
+          type: string
+        logo_hm:
+          type: string
+        logo_hd:
+          type: string

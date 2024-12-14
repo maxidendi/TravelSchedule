@@ -15,15 +15,21 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-//            nearestStations()
-//            routesWithDestination()
-//            routesFrom()
-//            threadStationsList()
+            nearestStations()
+            routesWithDestination()
+            routesFrom()
+            threadStationsList()
             nearestSettlement()
+            carrier()
+            stationsList()
+            copyright()
         }
     }
     
     //MARK: - Methods
+    
+    //Принты добавил что бы быстро посмотреть в логе, что все данные поступают и декодятся
+    //Обязательно их уберу после ревью))
     
     func nearestStations() {
         let client = Client(
@@ -38,9 +44,9 @@ struct ContentView: View {
                     lat: 54.74306,
                     lng: 55.96779,
                     distance: 2)
-                print(response)
+                print("Nearest stations:\n\n \(response)\n")
             } catch {
-                print(error.localizedDescription)
+                assertionFailure(error.localizedDescription)
             }
         }
     }
@@ -58,9 +64,9 @@ struct ContentView: View {
                     from: "c146",
                     to: "c213",
                     date: "2024-12-13")
-                print(response)
+                print("Routes with destination:\n\n \(response)\n")
             } catch {
-                print(error.localizedDescription)
+                assertionFailure(error.localizedDescription)
             }
         }
     }
@@ -76,10 +82,10 @@ struct ContentView: View {
             do {
                 let response = try await routesFromService.getRoutesFrom(
                     station: "s9606364",
-                    date: "2024-12-09")
-                print(response)
+                    date: "2024-12-30")
+                print("Routes from:\n\n \(response)\n")
             } catch {
-                print(error.localizedDescription)
+                assertionFailure(error.localizedDescription)
             }
         }
     }
@@ -95,10 +101,10 @@ struct ContentView: View {
             do {
                 let response = try await threadStationsList.getThreadStationsList(
                     uid: "391U_2_2",
-                    date: "2024-12-09")
-                print(response)
+                    date: "2024-12-30")
+                print("Threads stations:\n\n \(response)\n")
             } catch {
-                print(error.localizedDescription)
+                assertionFailure(error.localizedDescription)
             }
         }
     }
@@ -115,13 +121,63 @@ struct ContentView: View {
                 let response = try await nearestSettlementService.getNearestSettlement(
                     lat: 54.74306,
                     lng: 55.96779)
-                print(response)
+                print("Nearest settlement:\n\n \(response)\n")
             } catch {
-                print(error.localizedDescription)
+                assertionFailure(error.localizedDescription)
             }
         }
     }
 
+    func carrier() {
+        let client = Client(
+            serverURL: try! Servers.Server1.url(),
+            transport: URLSessionTransport())
+        let carrierService = CarrierService(
+            client: client,
+            apikey: apikey)
+        Task {
+            do {
+                let response = try await carrierService.getCarrierDescription(code: "8565")
+                print("Carrier:\n\n \(response)\n")
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
+        }
+    }
+    
+    func stationsList() {
+        let client = Client(
+            serverURL: try! Servers.Server1.url(),
+            transport: URLSessionTransport())
+        let stationsListService = StationsListService(
+            client: client,
+            apikey: apikey)
+        Task {
+            do {
+                let response = try await stationsListService.getStationsList()
+                print("Some stations:\n\n \(String(describing: response.countries?[135]))\n")
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
+        }
+    }
+    
+    func copyright() {
+        let client = Client(
+            serverURL: try! Servers.Server1.url(),
+            transport: URLSessionTransport())
+        let copyrightService = CopyrightService(
+            client: client,
+            apikey: apikey)
+        Task {
+            do {
+                let response = try await copyrightService.getCopyright()
+                print("Copyright:\n\n \(response)\n")
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
+        }
+    }
 }
 
 #Preview {

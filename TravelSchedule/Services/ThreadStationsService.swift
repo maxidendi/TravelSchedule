@@ -4,7 +4,7 @@ import OpenAPIURLSession
 typealias ThreadStationsList = Components.Schemas.ThreadStationsList
 
 protocol ThreadStationsServiceProtocol {
-    func getThreadStationsList(uid: String, date: String?) async throws -> ThreadStationsList
+    func getThreadStationsList(uid: String) async throws -> ThreadStationsList
 }
 
 final class ThreadStationsService: ThreadStationsServiceProtocol {
@@ -16,11 +16,10 @@ final class ThreadStationsService: ThreadStationsServiceProtocol {
         self.apikey = apikey
     }
     
-    func getThreadStationsList(uid: String, date: String?) async throws -> ThreadStationsList {
+    func getThreadStationsList(uid: String) async throws -> ThreadStationsList {
         let response = try await client.getThreadStationsList(query: .init(
             apikey: apikey,
-            uid: uid,
-            date: date))
+            uid: uid))
         return try response.ok.body.json
     }
 }

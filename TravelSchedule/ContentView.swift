@@ -5,7 +5,7 @@ struct ContentView: View {
     
     //MARK: - Properties
     
-    let apikey = "092a8be2-0a60-47f7-a961-925ec208e58a"
+    private let apikey = Constants.API.yandexScheduleAPIKey
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -28,7 +28,7 @@ struct ContentView: View {
     
     //MARK: - Methods
     
-    //Принты добавил что бы быстро посмотреть в логе, что все данные поступают и декодятся
+    //Принты добавил что бы быстро посмотреть в логе, что все данные поступают и парсятся
     //Обязательно их уберу после ревью))
     
     func nearestStations() {
@@ -100,8 +100,7 @@ struct ContentView: View {
         Task {
             do {
                 let response = try await threadStationsList.getThreadStationsList(
-                    uid: "391U_2_2",
-                    date: "2024-12-30")
+                    uid: "391U_2_2")
                 print("Threads stations:\n\n \(response)\n")
             } catch {
                 assertionFailure(error.localizedDescription)

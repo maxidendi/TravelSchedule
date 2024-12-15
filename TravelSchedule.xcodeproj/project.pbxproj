@@ -11,6 +11,7 @@
 		3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6565232D0CB14A001D355E /* StationsListService.swift */; };
 		3F65652A2D0D691F001D355E /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 3F6565292D0D691F001D355E /* openapi.yaml */; };
 		3F6565752D0DF497001D355E /* CopyrightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6565742D0DF497001D355E /* CopyrightService.swift */; };
+		3F65658E2D0E9F91001D355E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65658D2D0E9F91001D355E /* Constants.swift */; };
 		3F65E71B2D021F23007BDEEA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F65E7152D021F23007BDEEA /* Preview Assets.xcassets */; };
 		3F65E71C2D021F23007BDEEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F65E7172D021F23007BDEEA /* Assets.xcassets */; };
 		3F65E71D2D021F23007BDEEA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65E7182D021F23007BDEEA /* ContentView.swift */; };
@@ -30,6 +31,7 @@
 		3F6565232D0CB14A001D355E /* StationsListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListService.swift; sourceTree = "<group>"; };
 		3F6565292D0D691F001D355E /* openapi.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
 		3F6565742D0DF497001D355E /* CopyrightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightService.swift; sourceTree = "<group>"; };
+		3F65658D2D0E9F91001D355E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3F65E7042D021F13007BDEEA /* TravelSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F65E7152D021F23007BDEEA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F65E7172D021F23007BDEEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				3F65E7162D021F23007BDEEA /* Preview Content */,
 				3F65E7182D021F23007BDEEA /* ContentView.swift */,
 				3F65E7192D021F23007BDEEA /* TravelScheduleApp.swift */,
+				3F65658D2D0E9F91001D355E /* Constants.swift */,
 				3F65E72F2D035470007BDEEA /* openapi-generator-config.yaml */,
 				3F6565292D0D691F001D355E /* openapi.yaml */,
 				3F65E7172D021F23007BDEEA /* Assets.xcassets */,
@@ -193,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F65651F2D0CAFE4001D355E /* CarrierService.swift in Sources */,
+				3F65658E2D0E9F91001D355E /* Constants.swift in Sources */,
 				3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */,
 				3F65E76B2D058630007BDEEA /* ThreadStationsService.swift in Sources */,
 				3F65E71D2D021F23007BDEEA /* ContentView.swift in Sources */,

@@ -891,7 +891,6 @@ components:
           items:
             $ref: '#/components/schemas/Carrier'
 
-
 #Stations list
 
     Country:

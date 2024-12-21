@@ -14,168 +14,100 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
-        .onAppear {
-            nearestStations()
-            routesWithDestination()
-            routesFrom()
-            threadStationsList()
-            nearestSettlement()
-            carrier()
-            stationsList()
-            copyright()
+        .task {
+            let client = Client(
+                serverURL: try! Servers.Server1.url(),
+                transport: URLSessionTransport())
+            do {
+                try await nearestStations(client: client)
+                try await routesWithDestination(client: client)
+                try await routesFrom(client: client)
+                try await threadStationsList(client: client)
+                try await nearestSettlement(client: client)
+                try await carrier(client: client)
+                try await stationsList(client: client)
+                try await copyright(client: client)
+            } catch {
+                assertionFailure(error.localizedDescription)
+            }
         }
     }
     
     //MARK: - Methods
     
-    //Принты добавил что бы быстро посмотреть в логе, что все данные поступают и парсятся
-    //Обязательно их уберу после ревью))
-    
-    func nearestStations() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func nearestStations(client: Client) async throws {
         let nearestStationsService = NearestStationsService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await nearestStationsService.getNearestStations(
-                    lat: 54.74306,
-                    lng: 55.96779,
-                    distance: 2)
-                print("Nearest stations:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await nearestStationsService.getNearestStations(
+            lat: 54.74306,
+            lng: 55.96779,
+            distance: 2)
+        print("Nearest stations:\n\n \(response)\n")
     }
     
-    func routesWithDestination() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func routesWithDestination(client: Client) async throws {
         let routesWithDestination = RoutesWithDestinationService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await routesWithDestination.getRoutesWithDestination(
-                    from: "c146",
-                    to: "c213",
-                    date: "2024-12-13")
-                print("Routes with destination:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await routesWithDestination.getRoutesWithDestination(
+            from: "c146",
+            to: "c213",
+            date: "2024-12-13")
+        print("Routes with destination:\n\n \(response)\n")
     }
 
-    func routesFrom() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func routesFrom(client: Client) async throws {
         let routesFromService = RoutesFromService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await routesFromService.getRoutesFrom(
-                    station: "s9606364",
-                    date: "2024-12-30")
-                print("Routes from:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await routesFromService.getRoutesFrom(
+            station: "s9606364",
+            date: "2024-12-30")
+        print("Routes from:\n\n \(response)\n")
     }
     
-    func threadStationsList() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func threadStationsList(client: Client) async throws {
         let threadStationsList = ThreadStationsService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await threadStationsList.getThreadStationsList(
-                    uid: "391U_2_2")
-                print("Threads stations:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await threadStationsList.getThreadStationsList(
+            uid: "391U_2_2")
+        print("Threads stations:\n\n \(response)\n")
     }
     
-    func nearestSettlement() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func nearestSettlement(client: Client) async throws {
         let nearestSettlementService = NearestSettlementService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await nearestSettlementService.getNearestSettlement(
-                    lat: 54.74306,
-                    lng: 55.96779)
-                print("Nearest settlement:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await nearestSettlementService.getNearestSettlement(
+            lat: 54.74306,
+            lng: 55.96779)
+        print("Nearest settlement:\n\n \(response)\n")
     }
 
-    func carrier() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func carrier(client: Client) async throws {
         let carrierService = CarrierService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await carrierService.getCarrierDescription(code: "8565")
-                print("Carrier:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await carrierService.getCarrierDescription(code: "8565")
+        print("Carrier:\n\n \(response)\n")
     }
     
-    func stationsList() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func stationsList(client: Client) async throws {
         let stationsListService = StationsListService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await stationsListService.getStationsList()
-                print("Some stations:\n\n \(String(describing: response.countries?[135]))\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await stationsListService.getStationsList()
+        print("Some stations:\n\n \(String(describing: response.countries?[135]))\n")
     }
     
-    func copyright() {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
+    private func copyright(client: Client) async throws {
         let copyrightService = CopyrightService(
             client: client,
             apikey: apikey)
-        Task {
-            do {
-                let response = try await copyrightService.getCopyright()
-                print("Copyright:\n\n \(response)\n")
-            } catch {
-                assertionFailure(error.localizedDescription)
-            }
-        }
+        let response = try await copyrightService.getCopyright()
+        print("Copyright:\n\n \(response)\n")
     }
 }
 

@@ -63,6 +63,7 @@ struct ScheduleView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16)
                                     .frame(width: 150, height: 60)
+                                    .foregroundColor(.ypBlue)
                                 Text("Найти")
                                     .font(.system(size: 17, weight: .bold))
                                     .foregroundColor(Color.white)
@@ -91,7 +92,9 @@ struct ScheduleView: View {
                         .toolbarRole(.editor)
                 case .carriersList:
                     CarriersListView()
+                        .navigationTitle("")
                         .environmentObject(router)
+                        .environmentObject(store)
                         .toolbar(.hidden, for: .tabBar)
                         .toolbarRole(.editor)
                 case .filters:

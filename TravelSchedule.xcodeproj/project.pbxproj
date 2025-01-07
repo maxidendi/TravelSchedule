@@ -32,6 +32,9 @@
 		3FFF128C2D299DAC00638F2A /* StationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF128B2D299DAC00638F2A /* StationsListView.swift */; };
 		3FFF12AF2D29A2EE00638F2A /* SearchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */; };
 		3FFF13C82D2AF58F00638F2A /* CarriersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF13C72D2AF58F00638F2A /* CarriersListView.swift */; };
+		3FFF14572D2C517400638F2A /* CarrierRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF14562D2C517400638F2A /* CarrierRow.swift */; };
+		3FFF145B2D2C53C400638F2A /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF145A2D2C53C400638F2A /* Route.swift */; };
+		3FFF145E2D2C549F00638F2A /* Carrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF145D2D2C549F00638F2A /* Carrier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +63,9 @@
 		3FFF128B2D299DAC00638F2A /* StationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListView.swift; sourceTree = "<group>"; };
 		3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStore.swift; sourceTree = "<group>"; };
 		3FFF13C72D2AF58F00638F2A /* CarriersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarriersListView.swift; sourceTree = "<group>"; };
+		3FFF14562D2C517400638F2A /* CarrierRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierRow.swift; sourceTree = "<group>"; };
+		3FFF145A2D2C53C400638F2A /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		3FFF145D2D2C549F00638F2A /* Carrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carrier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,7 @@
 				3FFF128B2D299DAC00638F2A /* StationsListView.swift */,
 				3FFA78932D206AD4004520FA /* ListRow.swift */,
 				3FFF13C72D2AF58F00638F2A /* CarriersListView.swift */,
+				3FFF14562D2C517400638F2A /* CarrierRow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,6 +165,8 @@
 			isa = PBXGroup;
 			children = (
 				3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */,
+				3FFF145A2D2C53C400638F2A /* Route.swift */,
+				3FFF145D2D2C549F00638F2A /* Carrier.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -257,9 +266,12 @@
 				3FFF11F42D298A6000638F2A /* Router.swift in Sources */,
 				3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */,
 				3FFF128C2D299DAC00638F2A /* StationsListView.swift in Sources */,
+				3FFF145B2D2C53C400638F2A /* Route.swift in Sources */,
 				3FFF13C82D2AF58F00638F2A /* CarriersListView.swift in Sources */,
+				3FFF145E2D2C549F00638F2A /* Carrier.swift in Sources */,
 				3F65E7332D0354A7007BDEEA /* NearestStationsService.swift in Sources */,
 				3F65E7372D04BFAA007BDEEA /* RoutesWithDestinationService.swift in Sources */,
+				3FFF14572D2C517400638F2A /* CarrierRow.swift in Sources */,
 				3F65E71E2D021F23007BDEEA /* TravelScheduleApp.swift in Sources */,
 				3F65E75A2D04DB7D007BDEEA /* RoutesFromService.swift in Sources */,
 				3F6565752D0DF497001D355E /* CopyrightService.swift in Sources */,

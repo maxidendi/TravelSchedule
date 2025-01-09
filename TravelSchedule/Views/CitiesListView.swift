@@ -56,6 +56,7 @@ struct CitiesListView: View {
                 List {
                     ForEach(filteredList, id: \.self) { city in
                         ListRow(text: city)
+                            .padding(.horizontal, 16)
                             .listRowSeparator(.hidden)
                             .listRowInsets(.init(.zero))
                             .onTapGesture {

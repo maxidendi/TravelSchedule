@@ -5,7 +5,7 @@ enum Paths: Hashable {
     case stationsList(Directions)
     case carriersList
     case filters
-    case carrierDetails
+    case carrierDetails(Carrier)
 }
 
 enum Directions {
@@ -104,8 +104,12 @@ struct ScheduleView: View {
                         .environmentObject(store)
                         .toolbar(.hidden, for: .tabBar)
                         .toolbarRole(.editor)
-                case .carrierDetails:
-                    Text("Carriers details")
+                case .carrierDetails(let carrier):
+                    CarrierInfoView(carrier: carrier)
+                        .navigationTitle("Информация о перевозчике")
+                        .environmentObject(router)
+                        .toolbar(.hidden, for: .tabBar)
+                        .toolbarRole(.editor)
                 }
             }
         }

@@ -13,8 +13,8 @@ struct ListRow: View {
                 .frame(width: 11, height: 19)
                 .fontWeight(.semibold)
         }
-        .padding(.horizontal, 16)
         .frame(height: 60)
+        .contentShape(Rectangle())
     }
 }
 

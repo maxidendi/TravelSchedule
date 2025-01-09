@@ -56,6 +56,7 @@ struct StationsListView: View {
                 List {
                     ForEach(filteredList, id: \.self) { station in
                         ListRow(text: station)
+                            .padding(.horizontal, 16)
                             .listRowSeparator(.hidden)
                             .listRowInsets(.init(.zero))
                             .onTapGesture {

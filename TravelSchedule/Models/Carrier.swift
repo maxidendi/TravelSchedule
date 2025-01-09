@@ -1,6 +1,6 @@
 import Foundation
 
-struct Carrier {
+struct Carrier: Hashable {
     let logo: ImageResource
     let shortTitle: String
     let title: String

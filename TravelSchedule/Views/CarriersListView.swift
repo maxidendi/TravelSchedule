@@ -72,10 +72,13 @@ struct CarriersListView: View {
                     .padding(.init(top: 0, leading: 0, bottom: 16, trailing: 0))
                     .multilineTextAlignment(.leading)
                     .font(.system(size: 24, weight: .bold))
-                List(mockCarriersList) {
-                    CarrierRow(route: $0)
+                List(mockCarriersList) { route in
+                    CarrierRow(route: route)
                         .listRowSeparator(.hidden)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 8, trailing: 0))
+                        .onTapGesture { [route] in
+                            router.push(.carrierDetails(route.carrier))
+                        }
                 }
                 .listStyle(.inset)
             }

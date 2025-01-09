@@ -24,6 +24,7 @@
 		3F65E75A2D04DB7D007BDEEA /* RoutesFromService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65E7592D04DB7D007BDEEA /* RoutesFromService.swift */; };
 		3F65E76B2D058630007BDEEA /* ThreadStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65E76A2D058630007BDEEA /* ThreadStationsService.swift */; };
 		3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65E77A2D05C290007BDEEA /* NearestSettlementService.swift */; };
+		3FA915272D303D5E00982A13 /* UserAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA915262D303D5E00982A13 /* UserAgreementView.swift */; };
 		3FFA78102D1DCE9B004520FA /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */; };
 		3FFA78132D1DCEAD004520FA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA78122D1DCEAD004520FA /* SettingsView.swift */; };
 		3FFA784E2D2049D2004520FA /* CitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA784D2D2049D2004520FA /* CitiesListView.swift */; };
@@ -57,6 +58,7 @@
 		3F65E7592D04DB7D007BDEEA /* RoutesFromService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesFromService.swift; sourceTree = "<group>"; };
 		3F65E76A2D058630007BDEEA /* ThreadStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadStationsService.swift; sourceTree = "<group>"; };
 		3F65E77A2D05C290007BDEEA /* NearestSettlementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestSettlementService.swift; sourceTree = "<group>"; };
+		3FA915262D303D5E00982A13 /* UserAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgreementView.swift; sourceTree = "<group>"; };
 		3FFA77FE2D1DBFC4004520FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		3FFA78122D1DCEAD004520FA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				3FFF14562D2C517400638F2A /* CarrierRow.swift */,
 				3FFF14BF2D2D80D400638F2A /* FiltersView.swift */,
 				3FFF155B2D30180E00638F2A /* CarrierInfoView.swift */,
+				3FA915262D303D5E00982A13 /* UserAgreementView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				3F65651F2D0CAFE4001D355E /* CarrierService.swift in Sources */,
 				3F65658E2D0E9F91001D355E /* Constants.swift in Sources */,
 				3FFF14E42D2D8F2200638F2A /* CheckboxStyle.swift in Sources */,
+				3FA915272D303D5E00982A13 /* UserAgreementView.swift in Sources */,
 				3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */,
 				3F65E76B2D058630007BDEEA /* ThreadStationsService.swift in Sources */,
 				3F65E71D2D021F23007BDEEA /* ContentView.swift in Sources */,

@@ -2,6 +2,8 @@ import SwiftUI
 import OpenAPIURLSession
 
 struct ContentView: View {
+    @Binding var isDarkModeEnabled: Bool
+    
     var body: some View {
         TabView {
             VStack {
@@ -12,10 +14,7 @@ struct ContentView: View {
                     .renderingMode(.template)
             }
             VStack {
-                Spacer()
-                Text("Hello, Settings!")
-                Spacer()
-                Divider()
+                SettingsView(isDarkTheme: $isDarkModeEnabled)
             }
             .tabItem {
                 Image(.settingsTabIcon)
@@ -27,5 +26,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(isDarkModeEnabled: .constant(false))
 }

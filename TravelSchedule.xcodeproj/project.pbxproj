@@ -35,6 +35,9 @@
 		3FFF14572D2C517400638F2A /* CarrierRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF14562D2C517400638F2A /* CarrierRow.swift */; };
 		3FFF145B2D2C53C400638F2A /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF145A2D2C53C400638F2A /* Route.swift */; };
 		3FFF145E2D2C549F00638F2A /* Carrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF145D2D2C549F00638F2A /* Carrier.swift */; };
+		3FFF14C02D2D80D400638F2A /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF14BF2D2D80D400638F2A /* FiltersView.swift */; };
+		3FFF14E42D2D8F2200638F2A /* CheckboxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF14E32D2D8F2200638F2A /* CheckboxStyle.swift */; };
+		3FFF155C2D30180E00638F2A /* CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF155B2D30180E00638F2A /* CarrierInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +69,9 @@
 		3FFF14562D2C517400638F2A /* CarrierRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierRow.swift; sourceTree = "<group>"; };
 		3FFF145A2D2C53C400638F2A /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		3FFF145D2D2C549F00638F2A /* Carrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carrier.swift; sourceTree = "<group>"; };
+		3FFF14BF2D2D80D400638F2A /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
+		3FFF14E32D2D8F2200638F2A /* CheckboxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxStyle.swift; sourceTree = "<group>"; };
+		3FFF155B2D30180E00638F2A /* CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,7 @@
 		3F65E71A2D021F23007BDEEA /* TravelSchedule */ = {
 			isa = PBXGroup;
 			children = (
+				3FFF14E02D2D8F0E00638F2A /* Helpers */,
 				3FFF12AA2D29A2CE00638F2A /* Models */,
 				3FFA780B2D1DCE62004520FA /* ViewModels */,
 				3FFA78082D1DCE5A004520FA /* Views */,
@@ -150,6 +157,8 @@
 				3FFA78932D206AD4004520FA /* ListRow.swift */,
 				3FFF13C72D2AF58F00638F2A /* CarriersListView.swift */,
 				3FFF14562D2C517400638F2A /* CarrierRow.swift */,
+				3FFF14BF2D2D80D400638F2A /* FiltersView.swift */,
+				3FFF155B2D30180E00638F2A /* CarrierInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,6 +178,14 @@
 				3FFF145D2D2C549F00638F2A /* Carrier.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		3FFF14E02D2D8F0E00638F2A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3FFF14E32D2D8F2200638F2A /* CheckboxStyle.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,12 +273,15 @@
 			files = (
 				3F65651F2D0CAFE4001D355E /* CarrierService.swift in Sources */,
 				3F65658E2D0E9F91001D355E /* Constants.swift in Sources */,
+				3FFF14E42D2D8F2200638F2A /* CheckboxStyle.swift in Sources */,
 				3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */,
 				3F65E76B2D058630007BDEEA /* ThreadStationsService.swift in Sources */,
 				3F65E71D2D021F23007BDEEA /* ContentView.swift in Sources */,
 				3FFF12AF2D29A2EE00638F2A /* SearchStore.swift in Sources */,
 				3FFA78942D206AD4004520FA /* ListRow.swift in Sources */,
+				3FFF155C2D30180E00638F2A /* CarrierInfoView.swift in Sources */,
 				3FFA784E2D2049D2004520FA /* CitiesListView.swift in Sources */,
+				3FFF14C02D2D80D400638F2A /* FiltersView.swift in Sources */,
 				3FFA78102D1DCE9B004520FA /* ScheduleView.swift in Sources */,
 				3FFF11F42D298A6000638F2A /* Router.swift in Sources */,
 				3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */,

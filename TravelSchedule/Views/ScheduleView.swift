@@ -98,7 +98,12 @@ struct ScheduleView: View {
                         .toolbar(.hidden, for: .tabBar)
                         .toolbarRole(.editor)
                 case .filters:
-                    Text("Filters")
+                    FiltersView()
+                        .navigationTitle("")
+                        .environmentObject(router)
+                        .environmentObject(store)
+                        .toolbar(.hidden, for: .tabBar)
+                        .toolbarRole(.editor)
                 case .carrierDetails:
                     Text("Carriers details")
                 }

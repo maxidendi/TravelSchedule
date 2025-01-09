@@ -10,6 +10,8 @@ final class SearchStore: ObservableObject {
     @Published var stationsTo: String = ""
     @Published var fromText: String = ""
     @Published var toText: String = ""
+    @Published var departureFilters: Set<DepartureTimes> = []
+    @Published var isTransfered: Transfer = .none
     
     //MARK: - Methods
     

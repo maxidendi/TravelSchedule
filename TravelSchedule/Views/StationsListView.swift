@@ -23,10 +23,13 @@ struct StationsListView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                TextField("Введите запрос", text: $text)
+                TextField(text: $text, label: {
+                    Text("Введите запрос")
+                        .foregroundColor(.ypGray)
+                })
                     .frame(height: 36)
                     .padding(.horizontal, 33)
-                    .background(Color(.ypLightGray))
+                    .background(.ypLightGray)
                     .cornerRadius(10)
                     .overlay(
                         HStack {

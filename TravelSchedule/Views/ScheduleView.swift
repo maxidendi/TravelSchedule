@@ -1,16 +1,5 @@
 import SwiftUI
 
-enum Paths: Hashable {
-    case citiesList(Directions)
-    case stationsList(Directions)
-    case carriersList
-}
-
-enum Directions {
-    case from
-    case to
-}
-
 struct ScheduleView: View {
     
     //MARK: - Properties
@@ -25,20 +14,28 @@ struct ScheduleView: View {
             VStack(spacing: 16) {
                 HStack {
                     VStack {
-                        TextField("Откуда", text: $store.fromText)
-                            .font(.system(size: 17))
-                            .frame(height: 48)
-                            .padding(.leading, 16)
-                            .simultaneousGesture(TapGesture().onEnded {
-                                router.push(.citiesList(.from))
-                            })
-                        TextField("Куда", text: $store.toText)
-                            .font(.system(size: 17))
-                            .frame(height: 48)
-                            .padding(.leading, 16)
-                            .simultaneousGesture(TapGesture().onEnded {
-                                router.push(.citiesList(.to))
-                            })
+                        TextField(text: $store.fromText, label: {
+                            Text("Откуда")
+                                .foregroundColor(.ypGray)
+                        })
+                        .foregroundColor(.ypBlackUniversal)
+                        .font(.system(size: 17))
+                        .frame(height: 48)
+                        .padding(.leading, 16)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            router.push(.citiesList(.from))
+                        })
+                        TextField(text: $store.toText, label: {
+                            Text("Куда")
+                                .foregroundColor(.ypGray)
+                        })
+                        .foregroundColor(.ypBlackUniversal)
+                        .font(.system(size: 17))
+                        .frame(height: 48)
+                        .padding(.leading, 16)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            router.push(.citiesList(.to))
+                        })
                     }
                     .background(Color.white.cornerRadius(20))
                     .padding(.all, 16)

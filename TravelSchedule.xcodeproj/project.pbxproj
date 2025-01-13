@@ -25,6 +25,8 @@
 		3F65E76B2D058630007BDEEA /* ThreadStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65E76A2D058630007BDEEA /* ThreadStationsService.swift */; };
 		3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65E77A2D05C290007BDEEA /* NearestSettlementService.swift */; };
 		3FA915272D303D5E00982A13 /* UserAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA915262D303D5E00982A13 /* UserAgreementView.swift */; };
+		3FA916612D350A6E00982A13 /* PathsAndDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA916602D350A6E00982A13 /* PathsAndDirections.swift */; };
+		3FA916632D350AD500982A13 /* DepartureTimesAndTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA916622D350AD500982A13 /* DepartureTimesAndTransfer.swift */; };
 		3FFA78102D1DCE9B004520FA /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */; };
 		3FFA78132D1DCEAD004520FA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA78122D1DCEAD004520FA /* SettingsView.swift */; };
 		3FFA784E2D2049D2004520FA /* CitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA784D2D2049D2004520FA /* CitiesListView.swift */; };
@@ -59,6 +61,8 @@
 		3F65E76A2D058630007BDEEA /* ThreadStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadStationsService.swift; sourceTree = "<group>"; };
 		3F65E77A2D05C290007BDEEA /* NearestSettlementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestSettlementService.swift; sourceTree = "<group>"; };
 		3FA915262D303D5E00982A13 /* UserAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgreementView.swift; sourceTree = "<group>"; };
+		3FA916602D350A6E00982A13 /* PathsAndDirections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathsAndDirections.swift; sourceTree = "<group>"; };
+		3FA916622D350AD500982A13 /* DepartureTimesAndTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartureTimesAndTransfer.swift; sourceTree = "<group>"; };
 		3FFA77FE2D1DBFC4004520FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		3FFA78122D1DCEAD004520FA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */,
 				3FFF145A2D2C53C400638F2A /* Route.swift */,
 				3FFF145D2D2C549F00638F2A /* Carrier.swift */,
+				3FA916602D350A6E00982A13 /* PathsAndDirections.swift */,
+				3FA916622D350AD500982A13 /* DepartureTimesAndTransfer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 				3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */,
 				3F65E76B2D058630007BDEEA /* ThreadStationsService.swift in Sources */,
 				3F65E71D2D021F23007BDEEA /* ContentView.swift in Sources */,
+				3FA916612D350A6E00982A13 /* PathsAndDirections.swift in Sources */,
 				3FFF12AF2D29A2EE00638F2A /* SearchStore.swift in Sources */,
 				3FFA78942D206AD4004520FA /* ListRow.swift in Sources */,
 				3FFF155C2D30180E00638F2A /* CarrierInfoView.swift in Sources */,
@@ -289,6 +296,7 @@
 				3FFA78102D1DCE9B004520FA /* ScheduleView.swift in Sources */,
 				3FFF11F42D298A6000638F2A /* Router.swift in Sources */,
 				3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */,
+				3FA916632D350AD500982A13 /* DepartureTimesAndTransfer.swift in Sources */,
 				3FFF128C2D299DAC00638F2A /* StationsListView.swift in Sources */,
 				3FFF145B2D2C53C400638F2A /* Route.swift in Sources */,
 				3FFF13C82D2AF58F00638F2A /* CarriersListView.swift in Sources */,

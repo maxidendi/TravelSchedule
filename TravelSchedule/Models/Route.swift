@@ -1,7 +1,7 @@
 import Foundation
 
 struct Route: Identifiable {
-    var id = UUID()
+    let id: UUID
     let carrier: Carrier
     let transfer: String?
     let departureDate: String

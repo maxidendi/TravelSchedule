@@ -23,30 +23,32 @@ struct CitiesListView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                TextField("Введите запрос", text: $text)
-                    .frame(height: 36)
-                    .padding(.horizontal, 33)
-                    .background(Color(.ypLightGray))
-                    .cornerRadius(10)
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.ypGray)
-                                .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 8)
-                            if $text.wrappedValue.count > 0 {
-                                Button(action: {
-                                    self.text = ""
-                                }) {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.ypGray)
-                                        .padding(.trailing, 8)
-                                }
+                TextField(text: $text, label: {
+                    Text("Введите запрос")
+                        .foregroundColor(.ypGray)
+                })
+                .frame(height: 36)
+                .padding(.horizontal, 33)
+                .background(.ypLightGray)
+                .cornerRadius(10)
+                .overlay(
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.ypGray)
+                            .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 8)
+                        if $text.wrappedValue.count > 0 {
+                            Button(action: {
+                                self.text = ""
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.ypGray)
+                                    .padding(.trailing, 8)
                             }
                         }
-                    )
+                    })
             }
-                .padding(.horizontal, 16)
+            .padding(.horizontal, 16)
             if filteredList.isEmpty {
                 Spacer()
                 Text("Город не найден")

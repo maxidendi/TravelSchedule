@@ -1,13 +1,27 @@
 import SwiftUI
 
-enum DepartureTimes: String, CaseIterable {
+enum DepartureTimes: String, Hashable {
     case morning = "Утро 06:00 - 12:00"
     case afternoon = "День 12:00 - 18:00"
     case evening = "Вечер 18:00 - 00:00"
     case night = "Ночь 00:00 - 06:00"
+    case none
+    
+    static func from(date: Date?) -> DepartureTimes {
+        guard let date else { return none }
+        let hour = Calendar.current.component(.hour, from: date)
+        switch hour {
+        case 0...5: return .night
+        case 6...11: return .morning
+        case 12...17: return .afternoon
+        case 18...23: return .evening
+        default:
+            return none
+        }
+    }
 }
 
-enum Transfer: String {
+enum Transfer: String, Hashable {
     case yes = "Да"
     case no = "Нет"
     case none
@@ -15,26 +29,51 @@ enum Transfer: String {
 
 struct FiltersView: View {
     
+    //MARK: - Init
+    
+    init(
+        departureFilters: Binding<Set<DepartureTimes>>,
+        isTransfered: Binding<Bool?>
+    ) {
+        self._departureFilters = departureFilters
+        self._isTransferedFilter = isTransfered
+        self.filterMorning = departureFilters.wrappedValue.contains(.morning)
+        self.filterAfternoon = departureFilters.wrappedValue.contains(.afternoon)
+        self.filterEvening = departureFilters.wrappedValue.contains(.evening)
+        self.filterNight = departureFilters.wrappedValue.contains(.night)
+        switch isTransfered.wrappedValue {
+        case .none:
+            filterIsTransfered = false
+            filterIsNotTransfered = false
+        case .some(let isTransfered):
+            filterIsTransfered = isTransfered
+            filterIsNotTransfered = !isTransfered
+        }
+    }
+    
     //MARK: - Properties
     
-    @State private var filterMorning: Bool = false
-    @State private var filterAfternoon: Bool = false
-    @State private var filterEvening: Bool = false
-    @State private var filterNight: Bool = false
-    @State private var filterIsTransfered: Bool = false
-    @State private var filterIsNotTransfered: Bool = false
-    @EnvironmentObject var router: Router
+    @Environment(\.dismiss) var dismiss
+    @Binding var departureFilters: Set<DepartureTimes>
+    @Binding var isTransferedFilter: Bool?
+    @State private var filterMorning: Bool
+    @State private var filterAfternoon: Bool
+    @State private var filterEvening: Bool
+    @State private var filterNight: Bool
+    @State private var filterIsTransfered: Bool
+    @State private var filterIsNotTransfered: Bool
     @EnvironmentObject var store: SearchStore
     
     //MARK: - Methods
     
     private func setFilters() {
-        if filterMorning == true { store.departureFilters.insert(.morning) }
-        if filterAfternoon == true { store.departureFilters.insert(.afternoon) }
-        if filterEvening == true { store.departureFilters.insert(.evening) }
-        if filterNight == true { store.departureFilters.insert(.night) }
-        if filterIsTransfered == true { store.isTransfered = .yes }
-        if filterIsNotTransfered == true { store.isTransfered = .no }
+        if filterMorning == true { departureFilters.insert(.morning) } else { departureFilters.remove(.morning) }
+        if filterAfternoon == true { departureFilters.insert(.afternoon) } else { departureFilters.remove(.afternoon) }
+        if filterEvening == true { departureFilters.insert(.evening) } else { departureFilters.remove(.evening) }
+        if filterNight == true { departureFilters.insert(.night) } else { departureFilters.remove(.night) }
+        if filterIsTransfered == true { isTransferedFilter = true }
+        if filterIsNotTransfered == true { isTransferedFilter = false }
+        if filterIsTransfered == false && filterIsNotTransfered == false { isTransferedFilter = nil }
     }
     
     //MARK: - Body
@@ -61,7 +100,7 @@ struct FiltersView: View {
                     .font(.system(size: 17, weight: .regular))
                     .foregroundColor(.ypBlack)
                     .toggleStyle(CheckboxStyle(imageConfig: .box))
-                    Text("Показать варианты с пересадками")
+                    Text("Показывать варианты с пересадками")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.ypBlack)
                         .padding(.vertical, 16)
@@ -87,20 +126,24 @@ struct FiltersView: View {
                     .toggleStyle(CheckboxStyle(imageConfig: .circle))
                 }
                 .padding(.horizontal ,16)
+                Spacer(minLength: 60)
             }
+            .scrollIndicators(.hidden)
             .padding(.bottom, 16)
             if filterMorning == true ||
-               filterAfternoon == true ||
-               filterEvening == true ||
-               filterNight == true ||
-               filterIsTransfered == true ||
-               filterIsNotTransfered == true {
+                filterAfternoon == true ||
+                filterEvening == true ||
+                filterNight == true ||
+                filterIsTransfered == true ||
+                filterIsNotTransfered == true ||
+                !departureFilters.isEmpty ||
+                isTransferedFilter != nil {
                 VStack {
                     Spacer()
                     Button(
                         action: {
                             setFilters()
-                            router.pop()
+                            dismiss()
                         },
                         label: {
                             ZStack {
@@ -117,10 +160,11 @@ struct FiltersView: View {
                 }
             }
         }
+        .toolbarBackground(.ypWhite, for: .navigationBar)
     }
 }
 
 #Preview {
-    FiltersView()
+    FiltersView(departureFilters: .constant([]), isTransfered: .constant(.none))
         .environmentObject(SearchStore())
 }

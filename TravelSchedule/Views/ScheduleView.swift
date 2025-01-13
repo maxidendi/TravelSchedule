@@ -4,8 +4,6 @@ enum Paths: Hashable {
     case citiesList(Directions)
     case stationsList(Directions)
     case carriersList
-    case filters
-    case carrierDetails(Carrier)
 }
 
 enum Directions {
@@ -73,12 +71,13 @@ struct ScheduleView: View {
                 Spacer()
                 Divider()
             }
-            .navigationTitle("")
+            .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: Paths.self) { path in
                 switch path {
                 case .citiesList(let direction):
                     CitiesListView(direction: direction)
                         .navigationTitle("Выбор города")
+                        .navigationBarTitleDisplayMode(.inline)
                         .environmentObject(router)
                         .environmentObject(store)
                         .toolbar(.hidden, for: .tabBar)
@@ -86,6 +85,7 @@ struct ScheduleView: View {
                 case .stationsList(let direction):
                     StationsListView(direction: direction)
                         .navigationTitle("Выбор станции")
+                        .navigationBarTitleDisplayMode(.inline)
                         .environmentObject(router)
                         .environmentObject(store)
                         .toolbar(.hidden, for: .tabBar)
@@ -93,21 +93,9 @@ struct ScheduleView: View {
                 case .carriersList:
                     CarriersListView()
                         .navigationTitle("")
+                        .navigationBarTitleDisplayMode(.inline)
                         .environmentObject(router)
                         .environmentObject(store)
-                        .toolbar(.hidden, for: .tabBar)
-                        .toolbarRole(.editor)
-                case .filters:
-                    FiltersView()
-                        .navigationTitle("")
-                        .environmentObject(router)
-                        .environmentObject(store)
-                        .toolbar(.hidden, for: .tabBar)
-                        .toolbarRole(.editor)
-                case .carrierDetails(let carrier):
-                    CarrierInfoView(carrier: carrier)
-                        .navigationTitle("Информация о перевозчике")
-                        .environmentObject(router)
                         .toolbar(.hidden, for: .tabBar)
                         .toolbarRole(.editor)
                 }

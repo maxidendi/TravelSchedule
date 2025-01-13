@@ -4,7 +4,82 @@ struct CarriersListView: View {
     
     //MARK: - Properties
     
-    private let mockCarriersList: [Route] = [
+    @EnvironmentObject var store: SearchStore
+    @EnvironmentObject var router: Router
+    @State var departureFilters: Set<DepartureTimes> = []
+    @State var isTransfered: Bool? = nil
+    private var filteredCarriersList: [Route] {
+        if departureFilters.isEmpty {
+            if let isTransfered {
+                return CarriersListView.mockCarriersList.filter {
+                    $0.isTransfered == isTransfered
+                }
+            } else {
+                return CarriersListView.mockCarriersList
+            }
+        } else {
+            if let isTransfered {
+                return CarriersListView.mockCarriersList.filter {
+                    $0.isTransfered == isTransfered && departureFilters.contains($0.dayTime)
+                }
+            } else {
+                return CarriersListView.mockCarriersList.filter {
+                    departureFilters.contains($0.dayTime)
+                }
+            }
+        }
+    }
+    
+    //MARK: - Body
+
+    var body: some View {
+        ZStack {
+            VStack(alignment: .leading) {
+                Text("\(store.fromText) → \(store.toText)")
+                    .padding(.leading, .zero)
+                    .padding(.bottom, 16)
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 24, weight: .bold))
+                ScrollView(.vertical) {
+                    ForEach(filteredCarriersList) { route in
+                        NavigationLink {
+                            CarrierInfoView(carrier: route.carrier)
+                        } label: {
+                            CarrierRow(route: route)
+                                .listRowSeparator(.hidden)
+                        }
+                    }
+                    Spacer(minLength: 76)
+                }
+                .scrollIndicators(.hidden)
+            }
+            .padding(16)
+            VStack {
+                Spacer()
+                NavigationLink {
+                    FiltersView(departureFilters: $departureFilters,
+                                isTransfered: $isTransfered)
+                    .navigationTitle("")
+                    .toolbarRole(.editor)
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .padding(.horizontal, 16)
+                            .frame(height: 60)
+                            .foregroundColor(.ypBlue)
+                        Text("Уточнить время")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(.ypWhiteUniversal)
+                    }
+                }
+                .padding(.bottom, 24)
+            }
+        }
+    }
+}
+
+extension CarriersListView {
+    static let mockCarriersList: [Route] = [
         Route(carrier:
                 Carrier(logo: .rzhdLogo,
                         shortTitle: "РЖД",
@@ -57,55 +132,12 @@ struct CarriersListView: View {
                         email: "i.lozgkina@yandex.ru",
                         phone: "+7 (987) 329-27-88"),
               transfer: nil,
-              departureDate: "2025-01-16T12:30:00+05:00",
+              departureDate: "2025-01-16T08:30:00+05:00",
               arrivalDate: "2025-01-16T21:00:00+05:00")
     ]
-    @EnvironmentObject var store: SearchStore
-    @EnvironmentObject var router: Router
-    
-    //MARK: - Body
-
-    var body: some View {
-        ZStack {
-            VStack {
-                Text("\(store.fromText) → \(store.toText)")
-                    .padding(.init(top: 0, leading: 0, bottom: 16, trailing: 0))
-                    .multilineTextAlignment(.leading)
-                    .font(.system(size: 24, weight: .bold))
-                List(mockCarriersList) { route in
-                    CarrierRow(route: route)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 8, trailing: 0))
-                        .onTapGesture { [route] in
-                            router.push(.carrierDetails(route.carrier))
-                        }
-                }
-                .listStyle(.inset)
-            }
-            .padding(16)
-            VStack {
-                Spacer()
-                Button(
-                    action: { router.push(.filters) },
-                    label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .padding(.horizontal, 16)
-                                .frame(height: 60)
-                                .foregroundColor(.ypBlue)
-                            Text("Уточнить время")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(.ypWhiteUniversal)
-                        }
-                    })
-                .padding(.bottom, 24)
-            }
-        }
-    }
 }
 
 #Preview {
     CarriersListView()
         .environmentObject(SearchStore())
-        .environmentObject(Router.shared)
 }

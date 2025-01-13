@@ -18,13 +18,17 @@ final class Router: ObservableObject {
     
     func pop() {
         DispatchQueue.main.async {
-            self.path.removeLast()
+            if self.path.count > 1 {
+                self.path.removeLast()
+            }
         }
     }
     
     func clear() {
         DispatchQueue.main.async {
-            self.path.removeAll()
+            if self.path.count > 1 {
+                self.path.removeAll()
+            }
         }
     }
 }

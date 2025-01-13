@@ -69,6 +69,7 @@ struct FiltersView: View {
                         Toggle(DepartureTimes.night.rawValue,
                                isOn: $filterNight)
                     }
+//                    .foregroundColor(.ypBlack)
                     .frame(height: 60)
                     .font(.system(size: 17, weight: .regular))
                     .toggleStyle(CheckboxStyle(imageConfig: .box))
@@ -131,7 +132,6 @@ struct FiltersView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.ypWhite, for: .navigationBar)
     }
 }

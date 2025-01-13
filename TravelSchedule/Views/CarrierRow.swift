@@ -11,7 +11,7 @@ struct CarrierRow: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 24)
-                .fill(.ypLightGray)
+                .fill(.ypLightGrayUniversal)
             VStack {
                 HStack {
                     Image(route.carrier.logo)

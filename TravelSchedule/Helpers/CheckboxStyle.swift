@@ -16,7 +16,7 @@ struct CheckboxStyle: ToggleStyle {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)
-                    .tint(.ypBlack)
+                    .foregroundColor(.ypBlack)
                     .onTapGesture {
                         configuration.isOn.toggle()
                     }
@@ -25,7 +25,7 @@ struct CheckboxStyle: ToggleStyle {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)
-                    .tint(.ypBlack)
+                    .foregroundColor(.ypBlack)
                     .onTapGesture {
                         configuration.isOn.toggle()
                     }

@@ -2,11 +2,6 @@ import SwiftUI
 
 struct ErrorView: View {
     
-    enum ErrorType: String {
-        case serverError = "Ошибка сервера"
-        case noInternet = "Нет интернета"
-    }
-    
     @State var errorType: ErrorType
     
     var body: some View {

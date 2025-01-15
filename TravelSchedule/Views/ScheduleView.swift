@@ -7,7 +7,7 @@ struct ScheduleView: View {
 
     @StateObject var store = SearchStore()
     @ObservedObject var router = Router.shared
-    @StateObject var citiesViewModel = CitiesListViewModel()
+    @StateObject var citiesViewModel: CitiesListViewModel = .init()
 
     //MARK: - Body
 

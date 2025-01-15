@@ -38,6 +38,7 @@ struct CarriersListView: View {
                 Text("\(store.fromText) → \(store.toText)")
                     .padding(.leading, .zero)
                     .padding(.bottom, 16)
+                    .lineLimit(3)
                     .multilineTextAlignment(.leading)
                     .font(.system(size: 24, weight: .bold))
                 ScrollView(.vertical) {
@@ -56,6 +57,10 @@ struct CarriersListView: View {
             .padding(16)
             VStack {
                 Spacer()
+                Text("Вариантов нет")
+                    .font(.system(size: 24, weight: .bold))
+                    .opacity(filteredCarriersList.isEmpty ? 1 : 0)
+                Spacer()
                 NavigationLink {
                     FiltersView(departureFilters: $departureFilters,
                                 isTransfered: $isTransfered)
@@ -67,9 +72,17 @@ struct CarriersListView: View {
                             .padding(.horizontal, 16)
                             .frame(height: 60)
                             .foregroundColor(.ypBlue)
-                        Text("Уточнить время")
-                            .font(.system(size: 17, weight: .bold))
-                            .foregroundColor(.ypWhiteUniversal)
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Уточнить время")
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(.ypWhiteUniversal)
+                            if !departureFilters.isEmpty,
+                               isTransfered != nil {
+                                Circle()
+                                    .fill(.ypRed)
+                                    .frame(width: 8, height: 8)
+                            }
+                        }
                     }
                 }
                 .padding(.bottom, 24)

@@ -4,26 +4,17 @@ struct CitiesListView: View {
     
     //MARK: - Properties
     
-    private let mockCitiesList: [String] = [
-        "Москва", "Санкт Петербург", "Сочи",
-        "Краснодар", "Казань", "Омск"
-    ]
-    
     let direction: Directions
-    private var filteredList: [String] {
-        text.isEmpty ? mockCitiesList :
-                       mockCitiesList.filter{ $0.localizedCaseInsensitiveContains(text) }
-    }
     @EnvironmentObject var router: Router
     @EnvironmentObject var store: SearchStore
-    @State var text: String = ""
+    @ObservedObject var viewModel: CitiesListViewModel
     
     //MARK: - Body
 
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                TextField(text: $text, label: {
+                TextField(text: $viewModel.searchText, label: {
                     Text("Введите запрос")
                         .foregroundColor(.ypGray)
                 })
@@ -37,9 +28,9 @@ struct CitiesListView: View {
                             .foregroundColor(.ypGray)
                             .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
-                        if $text.wrappedValue.count > 0 {
+                        if $viewModel.searchText.wrappedValue.count > 0 {
                             Button(action: {
-                                self.text = ""
+                                $viewModel.searchText.wrappedValue = ""
                             }) {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(.ypGray)
@@ -49,36 +40,48 @@ struct CitiesListView: View {
                     })
             }
             .padding(.horizontal, 16)
-            if filteredList.isEmpty {
+            switch viewModel.stateMachine.state {
+            case .loading:
                 Spacer()
-                Text("Город не найден")
-                    .font(.system(size: 24, weight: .bold))
+                ProgressView()
                 Spacer()
-            } else {
-                List {
-                    ForEach(filteredList, id: \.self) { city in
-                        ListRow(text: city)
+            case .error(let error):
+                Spacer()
+                ErrorView(errorType: error)
+                Spacer()
+            case .loaded:
+                if viewModel.filteredCities().isEmpty {
+                    Spacer()
+                    Text("Город не найден")
+                        .font(.system(size: 24, weight: .bold))
+                    Spacer()
+                } else {
+                    List(viewModel.filteredCities(), id: \.id) { city in
+                        ListRow(text: city.title)
                             .padding(.horizontal, 16)
                             .listRowSeparator(.hidden)
                             .listRowInsets(.init(.zero))
                             .onTapGesture {
                                 switch direction {
                                 case .from:
-                                    store.cityFrom = city
-                                    router.push(.stationsList(.from))
+                                    store.cityFrom = city.title
+                                    router.push(.stationsList(city.stations, .from))
                                 case .to:
-                                    store.cityTo = city
-                                    router.push(.stationsList(.to))
+                                    store.cityTo = city.title
+                                    router.push(.stationsList(city.stations, .to))
                                 }
                             }
-                    }
+                        }
+                    .listStyle(.inset)
                 }
-                .listStyle(.inset)
             }
+        }
+        .onAppear {
+            viewModel.searchText = ""
         }
     }
 }
 
 #Preview {
-    CitiesListView(direction: .from)
+    CitiesListView(direction: .from, viewModel: CitiesListViewModel())
 }

@@ -4,15 +4,11 @@ struct StationsListView: View {
 
     //MARK: - Properties
 
-    private let mockStationsList: [String] = [
-        "Киевский вокзал", "Курский вокзал", "Ярославский вокзал",
-        "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"
-    ]
-    
+    let stationsList: [Station]
     let direction: Directions
-    private var filteredList: [String] {
-        text.isEmpty ? mockStationsList :
-                       mockStationsList.filter{ $0.localizedCaseInsensitiveContains(text) }
+    private var filteredList: [Station] {
+        text.isEmpty ? stationsList :
+                       stationsList.filter{ $0.title.localizedCaseInsensitiveContains(text) }
     }
     @EnvironmentObject var router: Router
     @EnvironmentObject var store: SearchStore
@@ -56,25 +52,23 @@ struct StationsListView: View {
                     .font(.system(size: 24, weight: .bold))
                 Spacer()
             } else {
-                List {
-                    ForEach(filteredList, id: \.self) { station in
-                        ListRow(text: station)
-                            .padding(.horizontal, 16)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(.init(.zero))
-                            .onTapGesture {
-                                switch direction {
-                                case .from:
-                                    store.stationsFrom = station
-                                    store.setupfromText()
-                                    router.clear()
-                                case .to:
-                                    store.stationsTo = station
-                                    store.setupToText()
-                                    router.clear()
-                                }
+                List(filteredList, id: \.self) { station in
+                    ListRow(text: station.title)
+                        .padding(.horizontal, 16)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(.init(.zero))
+                        .onTapGesture {
+                            switch direction {
+                            case .from:
+                                store.stationsFrom = station.title
+                                store.setupfromText()
+                                router.clear()
+                            case .to:
+                                store.stationsTo = station.title
+                                store.setupToText()
+                                router.clear()
                             }
-                    }
+                        }
                 }
                 .listStyle(.inset)
             }
@@ -83,5 +77,5 @@ struct StationsListView: View {
 }
 
 #Preview {
-    StationsListView(direction: .from)
+    StationsListView(stationsList: [], direction: .from)
 }

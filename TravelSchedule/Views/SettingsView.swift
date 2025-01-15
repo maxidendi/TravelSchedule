@@ -15,7 +15,6 @@ struct SettingsView: View {
                        isOn: $isDarkTheme)
                 NavigationLink(destination: UserAgreementView()) {
                     ListRow(text: "Пользовательское соглашение")
-                        .toolbar(.hidden, for: .tabBar)
                 }
                 .foregroundColor(.ypBlack)
                 Spacer()

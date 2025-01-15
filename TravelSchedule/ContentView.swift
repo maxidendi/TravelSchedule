@@ -21,20 +21,6 @@ struct ContentView: View {
                     .renderingMode(.template)
             }
         }
-//        .task {
-//            do {
-//                let client = Client(
-//                    serverURL: try! Servers.Server1.url(),
-//                    transport: URLSessionTransport())
-//                let stationsListService = StationsListService(
-//                    client: client,
-//                    apikey: Constants.API.yandexScheduleAPIKey)
-//                let response = try await stationsListService.getStationsList()
-//                print(response.countries?[0].regions?[0] ?? "")
-//            } catch {
-//                assertionFailure(error.localizedDescription)
-//            }
-//        }
         .accentColor(.ypBlack)
     }
 }

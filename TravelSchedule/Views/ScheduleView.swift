@@ -1,11 +1,13 @@
 import SwiftUI
 
+@MainActor
 struct ScheduleView: View {
     
     //MARK: - Properties
 
     @StateObject var store = SearchStore()
     @ObservedObject var router = Router.shared
+    @StateObject var citiesViewModel = CitiesListViewModel()
 
     //MARK: - Body
 
@@ -72,15 +74,15 @@ struct ScheduleView: View {
             .navigationDestination(for: Paths.self) { path in
                 switch path {
                 case .citiesList(let direction):
-                    CitiesListView(direction: direction)
+                    CitiesListView(direction: direction, viewModel: citiesViewModel)
                         .navigationTitle("Выбор города")
                         .navigationBarTitleDisplayMode(.inline)
                         .environmentObject(router)
                         .environmentObject(store)
                         .toolbar(.hidden, for: .tabBar)
                         .toolbarRole(.editor)
-                case .stationsList(let direction):
-                    StationsListView(direction: direction)
+                case .stationsList(let stations, let direction):
+                    StationsListView(stationsList: stations, direction: direction)
                         .navigationTitle("Выбор станции")
                         .navigationBarTitleDisplayMode(.inline)
                         .environmentObject(router)
@@ -97,6 +99,9 @@ struct ScheduleView: View {
                         .toolbarRole(.editor)
                 }
             }
+        }
+        .task {
+            await citiesViewModel.getCities()
         }
     }
 }

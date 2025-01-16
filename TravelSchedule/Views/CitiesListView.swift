@@ -76,6 +76,9 @@ struct CitiesListView: View {
                 }
             }
         }
+        .navigationTitle("Выбор города")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
         .onAppear {
             viewModel.searchText = ""
         }

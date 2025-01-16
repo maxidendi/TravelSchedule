@@ -76,7 +76,7 @@ struct CarriersListView: View {
                             Text("Уточнить время")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(.ypWhiteUniversal)
-                            if !departureFilters.isEmpty,
+                            if !departureFilters.isEmpty ||
                                isTransfered != nil {
                                 Circle()
                                     .fill(.ypRed)
@@ -88,6 +88,9 @@ struct CarriersListView: View {
                 .padding(.bottom, 24)
             }
         }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
     }
 }
 

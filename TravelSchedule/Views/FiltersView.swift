@@ -131,7 +131,6 @@ struct FiltersView: View {
                 }
             }
         }
-        .toolbarBackground(.ypWhite, for: .navigationBar)
     }
 }
 

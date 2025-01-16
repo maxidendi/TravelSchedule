@@ -9,29 +9,27 @@ struct SettingsView: View {
     //MARK: - Body
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Toggle("Темная тема",
-                       isOn: $isDarkTheme)
-                NavigationLink(destination: UserAgreementView()) {
-                    ListRow(text: "Пользовательское соглашение")
-                }
-                .foregroundColor(.ypBlack)
-                Spacer()
-                Group {
-                    Text("Приложение использует API «Яндекс.Расписания»")
-                        .padding(.bottom, 16)
-                    Text("Версия 1.0 (beta)")
-                }
-                .font(.system(size: 12, weight: .regular))
-                .foregroundColor(.ypBlack)
-                .lineLimit(0)
+        VStack {
+            Toggle("Темная тема",
+                    isOn: $isDarkTheme)
+            .toggleStyle(SwitchToggleStyle(tint: .ypBlue))
+            NavigationLink(destination: UserAgreementView()) {
+                ListRow(text: "Пользовательское соглашение")
             }
-            .navigationTitle("Настройки")
-            .toolbar(.hidden, for: .navigationBar)
-            .padding(.vertical, 24)
-            .padding(.horizontal, 16)
+            .foregroundColor(.ypBlack)
+            Spacer()
+            Group {
+                Text("Приложение использует API «Яндекс.Расписания»")
+                    .padding(.bottom, 16)
+                Text("Версия 1.0 (beta)")
+            }
+            .font(.system(size: 12, weight: .regular))
+            .foregroundColor(.ypBlack)
+            .lineLimit(nil)
         }
+        .navigationTitle("")
+        .padding(.vertical, 24)
+        .padding(.horizontal, 16)
         Divider()
     }
 }

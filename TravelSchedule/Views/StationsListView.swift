@@ -73,6 +73,9 @@ struct StationsListView: View {
                 .listStyle(.inset)
             }
         }
+        .navigationTitle("Выбор станции")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
     }
 }
 

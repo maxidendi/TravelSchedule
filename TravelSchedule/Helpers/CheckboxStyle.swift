@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct CheckboxStyle: ToggleStyle {
+    
     enum ImageConfig {
         case box
         case circle
     }
+    
     let imageConfig: ImageConfig
     func makeBody(configuration: Self.Configuration) -> some View {
         return HStack {

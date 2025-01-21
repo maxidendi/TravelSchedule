@@ -27,6 +27,7 @@ struct FiltersView: View {
     //MARK: - Properties
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var store: SearchStore
     @Binding var departureFilters: Set<DepartureTimes>
     @Binding var isTransferedFilter: Bool?
     @State private var filterMorning: Bool
@@ -35,7 +36,6 @@ struct FiltersView: View {
     @State private var filterNight: Bool
     @State private var filterIsTransfered: Bool
     @State private var filterIsNotTransfered: Bool
-    @EnvironmentObject var store: SearchStore
     
     //MARK: - Methods
     

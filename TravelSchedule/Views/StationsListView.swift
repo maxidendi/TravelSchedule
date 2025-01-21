@@ -12,7 +12,7 @@ struct StationsListView: View {
     }
     @EnvironmentObject var router: Router
     @EnvironmentObject var store: SearchStore
-    @State var text: String = ""
+    @State private var text: String = ""
     
     //MARK: - Body
 
@@ -60,10 +60,12 @@ struct StationsListView: View {
                         .onTapGesture {
                             switch direction {
                             case .from:
+                                store.stationFromCode = station.code
                                 store.stationsFrom = station.title
                                 store.setupfromText()
                                 router.clear()
                             case .to:
+                                store.stationToCode = station.code
                                 store.stationsTo = station.title
                                 store.setupToText()
                                 router.clear()

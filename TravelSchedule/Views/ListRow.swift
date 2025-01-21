@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ListRow: View {
-    @State var text: String
+    let text: String
     var body: some View {
         HStack {
             Text(text)

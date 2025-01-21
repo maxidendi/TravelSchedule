@@ -83,7 +83,13 @@ paths:
         description: Код станции прибытия "s9600213" - station, "c146" - city
         required: true
         schema:
-          type: string   
+          type: string
+      - name: transfers
+        in: query
+        description: Наличие пересадок
+        required: true
+        schema:
+          type: boolean
       - name: format
         in: query
         description: json или xml
@@ -99,7 +105,7 @@ paths:
       - name: date
         in: query
         description: Дата, на которую необходимо получить список рейсов ISO 8601
-        required: false
+        required: true
         schema:
           type: string  
       responses:

@@ -1,23 +1,16 @@
 import Foundation
 
 struct Route: Identifiable {
-    let id: UUID
-    let carrier: Carrier
-    let transfer: String?
-    let departureDate: String
-    let arrivalDate: String
-    let dayTime: DepartureTimes
-    var isTransfered: Bool { transfer != nil }
     
-    static private let isoDateFormatted = ISO8601DateFormatter()
-    static private let dateFormatter = DateFormatter()
+    //MARK: - Init
     
     init(
         id: UUID = UUID(),
         carrier: Carrier,
-        transfer: String?,
+        transfer: String,
         departureDate: String,
-        arrivalDate: String
+        arrivalDate: String,
+        isTransfered: Bool
     ) {
         self.id = id
         self.carrier = carrier
@@ -25,7 +18,21 @@ struct Route: Identifiable {
         self.departureDate = departureDate
         self.arrivalDate = arrivalDate
         self.dayTime = DepartureTimes.from(date: Route.isoDateFormatted.date(from: departureDate))
+        self.isTransfered = isTransfered
     }
+    
+    //MARK: - Properties
+
+    let id: UUID
+    let carrier: Carrier
+    let transfer: String
+    let departureDate: String
+    let arrivalDate: String
+    let dayTime: DepartureTimes
+    var isTransfered: Bool
+    
+    static private let isoDateFormatted = ISO8601DateFormatter()
+    static private let dateFormatter = DateFormatter()
     
     var formattedDepartureDate: String? {
         guard let date = Route.isoDateFormatted.date(from: departureDate) else { return nil }

@@ -8,6 +8,8 @@ final class SearchStore: ObservableObject {
     @Published var cityTo: String = ""
     @Published var stationsFrom: String = ""
     @Published var stationsTo: String = ""
+    @Published var stationFromCode: String = ""
+    @Published var stationToCode: String = ""
     @Published var fromText: String = ""
     @Published var toText: String = ""
     
@@ -22,8 +24,7 @@ final class SearchStore: ObservableObject {
     }
     
     func resetDirections() {
-        let temporaryText = fromText
-        fromText = toText
-        toText = temporaryText
+        swap(&stationFromCode, &stationToCode)
+        swap(&fromText, &toText)
     }
 }

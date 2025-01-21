@@ -11,10 +11,20 @@ struct CarrierInfoView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Image(carrier.logo)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: 104)
+            AsyncImage(url: URL(string: carrier.logo)) { phase in
+                switch phase {
+                case .empty, .failure(_):
+                    Image(.logoImageStub)
+                        .resizable()
+                        .scaledToFit()
+                case .success(let image):
+                    image.resizable()
+                        .scaledToFit()
+                @unknown default:
+                    EmptyView()
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: 104)
             Text(carrier.title)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.ypBlack)
@@ -39,6 +49,7 @@ struct CarrierInfoView: View {
                 .padding(.vertical, 12)
             }
         }
+        .navigationBarTitle("Информация о перевозчике")
         .padding()
         Spacer()
     }
@@ -46,8 +57,7 @@ struct CarrierInfoView: View {
 
 #Preview {
     CarrierInfoView(carrier: Carrier(
-        logo: .fgkLogo,
-        shortTitle: "FGK",
+        logo: "https://yastat.net/s3/rasp/media/data/company/logo/logo.gif",
         title: "OAO \"FGK\"",
         email: "fgk@fgk.ru",
         phone: "+7 499 999 999"))

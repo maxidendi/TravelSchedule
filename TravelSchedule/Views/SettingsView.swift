@@ -30,7 +30,6 @@ struct SettingsView: View {
         .navigationTitle("")
         .padding(.vertical, 24)
         .padding(.horizontal, 16)
-        Divider()
     }
 }
 

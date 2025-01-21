@@ -18,6 +18,7 @@ struct ContentView: View {
             TabView {
                 VStack {
                     ScheduleView(store: store, router: router, citiesViewModel: citiesViewModel)
+                    Divider()
                 }
                 .tabItem {
                     Image(.scheduleTabIcon)
@@ -25,6 +26,7 @@ struct ContentView: View {
                 }
                 VStack {
                     SettingsView(isDarkTheme: $isDarkModeEnabled)
+                    Divider()
                 }
                 .tabItem {
                     Image(.settingsTabIcon)

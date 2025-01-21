@@ -15,28 +15,25 @@ struct ScheduleView: View {
         VStack(spacing: 16) {
             HStack {
                 VStack {
-                    TextField(text: $store.fromText, label: {
-                        Text("Откуда")
-                            .foregroundColor(.ypGray)
-                    })
+                    Group {
+                        TextField(
+                            text: $store.fromText,
+                            label: {Text("Откуда").foregroundColor(.ypGray)})
+                        .gesture(TapGesture().onEnded {
+                            router.push(.citiesList(.from))
+                        })
+                        TextField(
+                            text: $store.toText,
+                            label: {
+                            Text("Куда").foregroundColor(.ypGray)})
+                        .gesture(TapGesture().onEnded {
+                            router.push(.citiesList(.to))
+                        })}
+                    .tint(.clear)
                     .foregroundColor(.ypBlackUniversal)
                     .font(.system(size: 17))
                     .frame(height: 48)
                     .padding(.leading, 16)
-                    .simultaneousGesture(TapGesture().onEnded {
-                        router.push(.citiesList(.from))
-                    })
-                    TextField(text: $store.toText, label: {
-                        Text("Куда")
-                            .foregroundColor(.ypGray)
-                    })
-                    .foregroundColor(.ypBlackUniversal)
-                    .font(.system(size: 17))
-                    .frame(height: 48)
-                    .padding(.leading, 16)
-                    .simultaneousGesture(TapGesture().onEnded {
-                        router.push(.citiesList(.to))
-                    })
                 }
                 .background(Color.white.cornerRadius(20))
                 .padding(.all, 16)
@@ -67,8 +64,8 @@ struct ScheduleView: View {
                     })
             }
             Spacer()
-            Divider()
         }
+        .ignoresSafeArea()
         .navigationTitle("")
         .toolbar(.hidden, for: .navigationBar)
         .navigationDestination(for: Paths.self) { path in
@@ -82,7 +79,7 @@ struct ScheduleView: View {
                     .environmentObject(router)
                     .environmentObject(store)
             case .carriersList:
-                CarriersListView()
+                RoutesListView()
                     .environmentObject(router)
                     .environmentObject(store)
             }

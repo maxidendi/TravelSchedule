@@ -14,22 +14,35 @@ struct CarrierRow: View {
                 .fill(.ypLightGrayUniversal)
             VStack {
                 HStack {
-                    Image(route.carrier.logo)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: 38, maxHeight: 38)
-                        .padding(.trailing, 8)
-                    if let transfer = route.transfer {
+                    AsyncImage(url: URL(string: route.carrier.logo)) { phase in
+                        switch phase {
+                        case .empty:
+                            Image(.logoIconStub)
+                                .scaledToFit()
+                                .frame(maxWidth: 38, maxHeight: 38)
+                                .padding(.trailing, 8)
+                        case .success(let image):
+                            image.resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: 38, maxHeight: 38)
+                                .padding(.trailing, 8)
+                        case .failure(_):
+                            Image(.logoIconStub)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    if route.isTransfered {
                         VStack(alignment: .leading) {
-                            Text(route.carrier.shortTitle)
+                            Text(route.carrier.title)
                                 .font(.system(size: 17, weight: .regular))
                                 .foregroundColor(.ypBlackUniversal)
-                            Text(transfer)
+                            Text(route.transfer)
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundColor(.ypRed)
                         }
                     } else {
-                        Text(route.carrier.shortTitle)
+                        Text(route.carrier.title)
                             .font(.system(size: 17, weight: .regular))
                             .tint(.ypBlackUniversal)
                     }
@@ -68,12 +81,12 @@ struct CarrierRow: View {
 
 #Preview {
     CarrierRow(route: Route(carrier:
-                                Carrier(logo: .rzhdLogo,
-                                        shortTitle: "РЖД",
+                                Carrier(logo: "https://yastat.net/s3/rasp/media/data/company/logo/logo.gif",
                                         title: "ОАО \"РЖД\"",
                                         email: "i.lozgkina@yandex.ru",
                                         phone: "+7 (904) 329-27-71"),
                               transfer: "С пересадкой в Костроме",
                               departureDate: "2025-01-14T22:30:00+05:00",
-                              arrivalDate: "2025-01-15T08:15:00+05:00"))
+                            arrivalDate: "2025-01-15T08:15:00+05:00",
+                            isTransfered: false))
 }

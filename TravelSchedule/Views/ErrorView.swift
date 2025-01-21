@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ErrorView: View {
     
-    @State var errorType: ErrorType
+    let errorType: ErrorType
     
     var body: some View {
         VStack(alignment: .center, spacing: 16) {

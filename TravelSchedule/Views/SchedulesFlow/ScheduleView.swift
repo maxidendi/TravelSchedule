@@ -12,7 +12,9 @@ struct ScheduleView: View {
     //MARK: - Body
 
     var body: some View {
-        VStack(spacing: 16) {
+        StoriesPreviewList(packs: StoriesPack.mockPacks)
+            .frame(height: 188)
+        VStack {
             HStack {
                 VStack {
                     Group {
@@ -48,7 +50,6 @@ struct ScheduleView: View {
             }
             .background(Color.ypBlue.cornerRadius(20))
             .padding(.horizontal, 16)
-            .padding(.top, 208)
             if !store.fromText.isEmpty && !store.toText.isEmpty {
                 Button(
                     action: { router.push(.carriersList) },
@@ -59,12 +60,13 @@ struct ScheduleView: View {
                                 .foregroundColor(.ypBlue)
                             Text("Найти")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.ypWhiteUniversal)
                         }
                     })
             }
             Spacer()
         }
+        .padding(.top, 20)
         .ignoresSafeArea()
         .navigationTitle("")
         .toolbar(.hidden, for: .navigationBar)

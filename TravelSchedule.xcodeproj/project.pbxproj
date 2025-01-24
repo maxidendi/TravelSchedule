@@ -46,6 +46,8 @@
 		3FF5CE7C2D4209BB007E83DF /* StoriesPreviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CE7B2D4209BB007E83DF /* StoriesPreviewList.swift */; };
 		3FF5CE802D4209F0007E83DF /* StoryPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CE7F2D4209F0007E83DF /* StoryPreview.swift */; };
 		3FF5CE942D420D28007E83DF /* StoriesPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CE932D420D28007E83DF /* StoriesPack.swift */; };
+		3FF5CEBD2D421C1D007E83DF /* StoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CEBC2D421C1D007E83DF /* StoriesViewModel.swift */; };
+		3FF5D0DD2D440BE4007E83DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF5D0452D440864007E83DF /* LaunchScreen.storyboard */; };
 		3FFA78102D1DCE9B004520FA /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */; };
 		3FFA78132D1DCEAD004520FA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA78122D1DCEAD004520FA /* SettingsView.swift */; };
 		3FFA784E2D2049D2004520FA /* CitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA784D2D2049D2004520FA /* CitiesListView.swift */; };
@@ -101,6 +103,8 @@
 		3FF5CE7B2D4209BB007E83DF /* StoriesPreviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesPreviewList.swift; sourceTree = "<group>"; };
 		3FF5CE7F2D4209F0007E83DF /* StoryPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryPreview.swift; sourceTree = "<group>"; };
 		3FF5CE932D420D28007E83DF /* StoriesPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesPack.swift; sourceTree = "<group>"; };
+		3FF5CEBC2D421C1D007E83DF /* StoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesViewModel.swift; sourceTree = "<group>"; };
+		3FF5D0452D440864007E83DF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3FFA77FE2D1DBFC4004520FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		3FFA78122D1DCEAD004520FA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				3F65658D2D0E9F91001D355E /* Constants.swift */,
 				3F65E7172D021F23007BDEEA /* Assets.xcassets */,
 				3FFA77FE2D1DBFC4004520FA /* Info.plist */,
+				3FF5D0452D440864007E83DF /* LaunchScreen.storyboard */,
 			);
 			path = TravelSchedule;
 			sourceTree = "<group>";
@@ -184,15 +189,10 @@
 		3FF5CD332D3FE650007E83DF /* SchedulesFlow */ = {
 			isa = PBXGroup;
 			children = (
+				3FF5D0E92D441278007E83DF /* Routes */,
+				3FF5D0E82D441231007E83DF /* Directions */,
 				3FF5CD522D3FF987007E83DF /* Stories */,
 				3FFA780F2D1DCE9B004520FA /* ScheduleView.swift */,
-				3FFA784D2D2049D2004520FA /* CitiesListView.swift */,
-				3FFF128B2D299DAC00638F2A /* StationsListView.swift */,
-				3FFA78932D206AD4004520FA /* ListRow.swift */,
-				3FFF13C72D2AF58F00638F2A /* RoutesListView.swift */,
-				3FFF14562D2C517400638F2A /* CarrierRow.swift */,
-				3FFF14BF2D2D80D400638F2A /* FiltersView.swift */,
-				3FFF155B2D30180E00638F2A /* CarrierInfoView.swift */,
 			);
 			path = SchedulesFlow;
 			sourceTree = "<group>";
@@ -239,6 +239,27 @@
 			path = Stories;
 			sourceTree = "<group>";
 		};
+		3FF5D0E82D441231007E83DF /* Directions */ = {
+			isa = PBXGroup;
+			children = (
+				3FFA784D2D2049D2004520FA /* CitiesListView.swift */,
+				3FFF128B2D299DAC00638F2A /* StationsListView.swift */,
+				3FFA78932D206AD4004520FA /* ListRow.swift */,
+			);
+			path = Directions;
+			sourceTree = "<group>";
+		};
+		3FF5D0E92D441278007E83DF /* Routes */ = {
+			isa = PBXGroup;
+			children = (
+				3FFF13C72D2AF58F00638F2A /* RoutesListView.swift */,
+				3FFF14562D2C517400638F2A /* CarrierRow.swift */,
+				3FFF14BF2D2D80D400638F2A /* FiltersView.swift */,
+				3FFF155B2D30180E00638F2A /* CarrierInfoView.swift */,
+			);
+			path = Routes;
+			sourceTree = "<group>";
+		};
 		3FFA78082D1DCE5A004520FA /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +275,7 @@
 			children = (
 				3FA916B42D368EDF00982A13 /* CitiesListViewModel.swift */,
 				3FF5CCE92D3E2B10007E83DF /* RoutesListViewModel.swift */,
+				3FF5CEBC2D421C1D007E83DF /* StoriesViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -358,6 +380,7 @@
 				3F65E7302D035470007BDEEA /* openapi-generator-config.yaml in Resources */,
 				3F65652A2D0D691F001D355E /* openapi.yaml in Resources */,
 				3F65E71B2D021F23007BDEEA /* Preview Assets.xcassets in Resources */,
+				3FF5D0DD2D440BE4007E83DF /* LaunchScreen.storyboard in Resources */,
 				3F65E71C2D021F23007BDEEA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,6 +398,7 @@
 				3FF5CE942D420D28007E83DF /* StoriesPack.swift in Sources */,
 				3FFF14E42D2D8F2200638F2A /* CheckboxStyle.swift in Sources */,
 				3FA915272D303D5E00982A13 /* UserAgreementView.swift in Sources */,
+				3FF5CEBD2D421C1D007E83DF /* StoriesViewModel.swift in Sources */,
 				3FF5CDD52D416838007E83DF /* TimerConfiguration.swift in Sources */,
 				3F65E77B2D05C290007BDEEA /* NearestSettlementService.swift in Sources */,
 				3FA916772D351BAB00982A13 /* AgreementWebView.swift in Sources */,
@@ -562,6 +586,7 @@
 				INFOPLIST_FILE = TravelSchedule/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
@@ -596,6 +621,7 @@
 				INFOPLIST_FILE = TravelSchedule/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16;

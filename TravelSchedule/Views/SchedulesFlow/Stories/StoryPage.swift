@@ -20,6 +20,7 @@ struct StoryPage: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(story.title)
                         .font(.system(size: 34, weight: .bold))
+                        .truncationMode(.tail)
                         .lineLimit(2)
                         .foregroundStyle(Color.ypWhiteUniversal)
                     Text(story.description)

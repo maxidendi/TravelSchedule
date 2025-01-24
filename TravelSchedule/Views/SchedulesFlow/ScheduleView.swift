@@ -8,11 +8,12 @@ struct ScheduleView: View {
     @ObservedObject var store: SearchStore
     @ObservedObject var router: Router
     @ObservedObject var citiesViewModel: CitiesListViewModel
+    @StateObject private var storiesViewModel = StoriesViewModel()
 
     //MARK: - Body
 
     var body: some View {
-        StoriesPreviewList(packs: StoriesPack.mockPacks)
+        StoriesPreviewList(storiesViewModel: storiesViewModel)
             .frame(height: 188)
         VStack {
             HStack {

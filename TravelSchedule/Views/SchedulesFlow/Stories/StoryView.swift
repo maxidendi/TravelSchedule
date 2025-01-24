@@ -5,67 +5,136 @@ struct StoryView: View {
     
     //MARK: - Properties
     
-    private let stories: [Story]
-    private let configuration: TimerConfiguration
-    private var currentStory: Story { stories[currentStoryIndex] }
-    private var currentStoryIndex: Int { Int(progress * CGFloat(stories.count)) }
+    @Binding var isPresenting: Bool
+    @ObservedObject private var storiesViewModel: StoriesViewModel
+    private var configuration: TimerConfiguration { TimerConfiguration(storiesCount: storiesPack.stories.count) }
+    private var storiesPack: StoriesPack { storiesViewModel.getCurrentStoriesPack() }
+    private var currentStory: Story { storiesViewModel.getCurrentStoriesPack().stories[currentStoryIndex] }
+    private var currentStoryIndex: Int { Int(progress * CGFloat(storiesPack.stories.count)) }
     @State private var progress: CGFloat = 0
     @State private var timer: Timer.TimerPublisher
     @State private var cancellable: Cancellable?
+    @State private var isSwiped: Bool = false
+    @State private var dragOffset: CGSize = .zero
     
     init(
-        stories: [Story]
+        isPresenting: Binding<Bool>,
+        storiesViewModel: ObservedObject<StoriesViewModel>
     ) {
-        self.stories = stories
-        configuration = TimerConfiguration(storiesCount: stories.count)
+        self._isPresenting = isPresenting
+        self._storiesViewModel = storiesViewModel
+        let storiesCount = storiesViewModel.wrappedValue.storiesPacks[storiesViewModel.wrappedValue.selectedStoriesPackIndex].stories.count
+        let configuration = TimerConfiguration(storiesCount: storiesCount)
         timer = Self.createTimer(configuration: configuration)
     }
     
     //MARK: - Body
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            StoryPage(story: currentStory)
-            ProgressBar(numberOfSections: stories.count, progress: progress)
-                .padding(.top, 35)
-                .padding(.horizontal, 12)
-            CloseButton(action: {  })
-                .padding(.top, 57)
-                .padding(.trailing, 12)
-        }
-        .onAppear {
-            timer = Self.createTimer(configuration: configuration)
-            cancellable = timer.connect()
-        }
-        .onDisappear {
-            cancellable?.cancel()
-        }
-        .onReceive(timer) { _ in
-            timerTick()
-        }
-        .onTapGesture {
-            nextStory()
-            resetTimer()
+        GeometryReader { geometry in
+            ZStack(alignment: .topTrailing) {
+                StoryPage(story: currentStory)
+                ProgressBar(numberOfSections: storiesPack.stories.count, progress: progress)
+                    .padding(.top, 35)
+                    .padding(.horizontal, 12)
+                CloseButton(action: { isPresenting = false })
+                    .padding(.top, 57)
+                    .padding(.trailing, 12)
+            }
+            .onAppear {
+                timer = Self.createTimer(configuration: configuration)
+                cancellable = timer.connect()
+            }
+            .onDisappear {
+                cancellable?.cancel()
+            }
+            .onReceive(timer) { _ in
+                timerTick()
+            }
+            .gesture (
+                DragGesture(minimumDistance: 50)
+                    .onChanged { value in
+                        isSwiped = true
+                        dragOffset = value.translation
+                        if dragOffset.height > 100 {
+                            isPresenting = false
+                        }
+                    }
+                    .onEnded { value in
+                        isSwiped = false
+                        dragOffset = .zero
+                        withAnimation {
+                            if value.location.x > geometry.size.width / 2 {
+                                changeStory(to: .previous)
+                            } else {
+                                changeStory(to: .next)
+                            }
+                        }
+                    })
+            .onTapGesture { gesture in
+                guard !isSwiped else { return }
+                withAnimation {
+                    if gesture.x > geometry.size.width / 2 {
+                        nextStory()
+                        resetTimer()
+                    } else {
+                        previousStory()
+                        resetTimer()
+                    }
+                }
+            }
         }
     }
     
     //MARK: - Methods
     
-    private func timerTick() {
-        var nextProgress = progress + configuration.progressPerTick
-        if nextProgress >= 1 {
-            nextProgress = 0
+    private enum ChangeStory {
+        case next
+        case previous
+    }
+    
+    private func changeStory(to change: ChangeStory) {
+        switch change {
+        case .next:
+            storiesViewModel.nextPack()
+        case .previous:
+            storiesViewModel.previousPack()
         }
-        progress = nextProgress
+        storiesViewModel.setCurrentStoriesPackAsWatched()
+        resetTimer()
+        progress = 0
+    }
+    
+    private func timerTick() {
+        let nextProgress = progress + configuration.progressPerTick
+        withAnimation {
+            if nextProgress >= 1 {
+                changeStory(to: .next)
+            } else {
+                progress = nextProgress
+            }
+        }
     }
     
     private func nextStory() {
-        var nextStoryProgress = CGFloat(currentStoryIndex + 1) / CGFloat(stories.count)
-        if nextStoryProgress >= 1 {
-            progress = 0
-            
-        } else {
-            progress = nextStoryProgress
+        let nextStoryProgress = CGFloat(currentStoryIndex + 1) / CGFloat(storiesPack.stories.count)
+        withAnimation {
+            if nextStoryProgress >= 1 {
+                changeStory(to: .next)
+            } else {
+                progress = nextStoryProgress
+            }
+        }
+    }
+    
+    private func previousStory() {
+        let nextStoryProgress = CGFloat(currentStoryIndex - 1) / CGFloat(storiesPack.stories.count)
+        withAnimation {
+            if nextStoryProgress < 0 {
+                changeStory(to: .previous)
+            } else {
+                progress = nextStoryProgress
+            }
         }
     }
     
@@ -79,6 +148,14 @@ struct StoryView: View {
         Timer.publish(every: configuration.timerTickInternal, on: .main, in: .common)
     }
 }
+
+#Preview {
+    @ObservedObject var viewModel = StoriesViewModel()
+    StoryView(isPresenting: .constant(true), storiesViewModel: _viewModel)
+}
+
+
+//Extension with mock stories
 
 extension StoryView {
     static let stories = [
@@ -107,8 +184,4 @@ extension StoryView {
             title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
             description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text")
     ]
-}
-
-#Preview {
-    StoryView(stories: StoryView.stories)
 }

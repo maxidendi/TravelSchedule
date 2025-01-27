@@ -35,8 +35,5 @@ struct StoryPage: View {
 }
 
 #Preview {
-    StoryPage(story: Story(
-        image: .story1,
-        title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-        description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"))
+    StoryPage(story: StoriesPack.mockPacks[0].stories[0])
 }

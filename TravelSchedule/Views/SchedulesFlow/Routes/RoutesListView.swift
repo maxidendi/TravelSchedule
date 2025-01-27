@@ -46,9 +46,14 @@ struct RoutesListView: View {
                         .multilineTextAlignment(.leading)
                         .font(.system(size: 24, weight: .bold))
                     Spacer()
-                    ProgressView()
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                     Spacer()
                 }
+                .padding()
             case .loaded:
                 VStack(alignment: .leading) {
                     Text("\(store.fromText) → \(store.toText)")
@@ -71,7 +76,7 @@ struct RoutesListView: View {
                     .ignoresSafeArea()
                     .scrollIndicators(.hidden)
                 }
-                .padding(16)
+                .padding()
                 VStack {
                     Spacer()
                     Text("Вариантов нет")

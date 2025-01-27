@@ -8,11 +8,14 @@ struct ScheduleView: View {
     @ObservedObject var store: SearchStore
     @ObservedObject var router: Router
     @ObservedObject var citiesViewModel: CitiesListViewModel
+    @StateObject private var storiesViewModel = StoriesViewModel()
 
     //MARK: - Body
 
     var body: some View {
-        VStack(spacing: 16) {
+        StoriesPreviewList(storiesViewModel: storiesViewModel)
+            .frame(height: 188)
+        VStack {
             HStack {
                 VStack {
                     Group {
@@ -48,7 +51,6 @@ struct ScheduleView: View {
             }
             .background(Color.ypBlue.cornerRadius(20))
             .padding(.horizontal, 16)
-            .padding(.top, 208)
             if !store.fromText.isEmpty && !store.toText.isEmpty {
                 Button(
                     action: { router.push(.carriersList) },
@@ -59,12 +61,13 @@ struct ScheduleView: View {
                                 .foregroundColor(.ypBlue)
                             Text("Найти")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.ypWhiteUniversal)
                         }
                     })
             }
             Spacer()
         }
+        .padding(.top, 20)
         .ignoresSafeArea()
         .navigationTitle("")
         .toolbar(.hidden, for: .navigationBar)

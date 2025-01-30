@@ -30,11 +30,12 @@ final class RoutesListViewModel: ObservableObject {
     }
     
     private func getRoute(from segment: Components.Schemas.Segment) {
+        guard let carrierComponent = segment.thread?.carrier else { return }
         let carrier = Carrier(
-            logo: segment.thread?.carrier?.logo ?? "",
-            title: segment.thread?.carrier?.title ?? "",
-            email: segment.thread?.carrier?.email ?? "",
-            phone: segment.thread?.carrier?.phone ?? "")
+            logo: carrierComponent.logo ?? "",
+            title: carrierComponent.title ?? "",
+            email: carrierComponent.email ?? "",
+            phone: carrierComponent.phone ?? "")
         let route: Route = Route(
             carrier: carrier,
             transfer: segment.stops ?? "",

@@ -27,7 +27,7 @@ struct FiltersView: View {
     //MARK: - Properties
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var store: SearchStore
+    @EnvironmentObject var store: ScheduleViewModel
     @Binding var departureFilters: Set<DepartureTimes>
     @Binding var isTransferedFilter: Bool?
     @State private var filterMorning: Bool
@@ -136,5 +136,5 @@ struct FiltersView: View {
 
 #Preview {
     FiltersView(departureFilters: .constant([]), isTransfered: .constant(.none))
-        .environmentObject(SearchStore())
+        .environmentObject(ScheduleViewModel())
 }

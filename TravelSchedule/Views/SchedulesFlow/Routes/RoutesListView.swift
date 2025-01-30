@@ -5,7 +5,7 @@ struct RoutesListView: View {
     
     //MARK: - Properties
     
-    @EnvironmentObject var store: SearchStore
+    @EnvironmentObject var store: ScheduleViewModel
     @EnvironmentObject var router: Router
     @State private var departureFilters: Set<DepartureTimes> = []
     @State private var isTransferedFilter: Bool? = nil
@@ -126,5 +126,5 @@ struct RoutesListView: View {
 
 #Preview {
     RoutesListView()
-        .environmentObject(SearchStore())
+        .environmentObject(ScheduleViewModel())
 }

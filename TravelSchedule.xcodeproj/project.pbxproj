@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0D94EE2D4B5A7200057D7D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D94ED2D4B5A7200057D7D /* NetworkClient.swift */; };
+		3F0D95152D4BDEDB00057D7D /* StationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D95142D4BDEDB00057D7D /* StationsListViewModel.swift */; };
 		3F65651F2D0CAFE4001D355E /* CarrierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65651E2D0CAFE4001D355E /* CarrierService.swift */; };
 		3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6565232D0CB14A001D355E /* StationsListService.swift */; };
 		3F65652A2D0D691F001D355E /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 3F6565292D0D691F001D355E /* openapi.yaml */; };
@@ -54,7 +56,7 @@
 		3FFA78942D206AD4004520FA /* ListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA78932D206AD4004520FA /* ListRow.swift */; };
 		3FFF11F42D298A6000638F2A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF11F32D298A6000638F2A /* Router.swift */; };
 		3FFF128C2D299DAC00638F2A /* StationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF128B2D299DAC00638F2A /* StationsListView.swift */; };
-		3FFF12AF2D29A2EE00638F2A /* SearchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */; };
+		3FFF12AF2D29A2EE00638F2A /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF12AE2D29A2EE00638F2A /* ScheduleViewModel.swift */; };
 		3FFF13C82D2AF58F00638F2A /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF13C72D2AF58F00638F2A /* RoutesListView.swift */; };
 		3FFF14572D2C517400638F2A /* CarrierRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF14562D2C517400638F2A /* CarrierRow.swift */; };
 		3FFF145B2D2C53C400638F2A /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF145A2D2C53C400638F2A /* Route.swift */; };
@@ -65,6 +67,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F0D94ED2D4B5A7200057D7D /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		3F0D95142D4BDEDB00057D7D /* StationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListViewModel.swift; sourceTree = "<group>"; };
 		3F65651E2D0CAFE4001D355E /* CarrierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierService.swift; sourceTree = "<group>"; };
 		3F6565232D0CB14A001D355E /* StationsListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListService.swift; sourceTree = "<group>"; };
 		3F6565292D0D691F001D355E /* openapi.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
@@ -112,7 +116,7 @@
 		3FFA78932D206AD4004520FA /* ListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRow.swift; sourceTree = "<group>"; };
 		3FFF11F32D298A6000638F2A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		3FFF128B2D299DAC00638F2A /* StationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListView.swift; sourceTree = "<group>"; };
-		3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStore.swift; sourceTree = "<group>"; };
+		3FFF12AE2D29A2EE00638F2A /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		3FFF13C72D2AF58F00638F2A /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		3FFF14562D2C517400638F2A /* CarrierRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierRow.swift; sourceTree = "<group>"; };
 		3FFF145A2D2C53C400638F2A /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -135,6 +139,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F0D94EA2D4B50BA00057D7D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3F0D94ED2D4B5A7200057D7D /* NetworkClient.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		3F65E6FB2D021F13007BDEEA = {
 			isa = PBXGroup;
 			children = (
@@ -171,9 +183,9 @@
 				3F65E7182D021F23007BDEEA /* ContentView.swift */,
 				3F65E7192D021F23007BDEEA /* TravelScheduleApp.swift */,
 				3F65658D2D0E9F91001D355E /* Constants.swift */,
+				3FF5D0452D440864007E83DF /* LaunchScreen.storyboard */,
 				3F65E7172D021F23007BDEEA /* Assets.xcassets */,
 				3FFA77FE2D1DBFC4004520FA /* Info.plist */,
-				3FF5D0452D440864007E83DF /* LaunchScreen.storyboard */,
 			);
 			path = TravelSchedule;
 			sourceTree = "<group>";
@@ -181,6 +193,7 @@
 		3F65E76C2D05863B007BDEEA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3F0D94EA2D4B50BA00057D7D /* Network */,
 				3FF5CD352D3FE6B7007E83DF /* YandexScheduleAPI */,
 			);
 			path = Services;
@@ -273,9 +286,11 @@
 		3FFA780B2D1DCE62004520FA /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				3FFF12AE2D29A2EE00638F2A /* ScheduleViewModel.swift */,
 				3FA916B42D368EDF00982A13 /* CitiesListViewModel.swift */,
 				3FF5CCE92D3E2B10007E83DF /* RoutesListViewModel.swift */,
 				3FF5CEBC2D421C1D007E83DF /* StoriesViewModel.swift */,
+				3F0D95142D4BDEDB00057D7D /* StationsListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -283,7 +298,6 @@
 		3FFF12AA2D29A2CE00638F2A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3FFF12AE2D29A2EE00638F2A /* SearchStore.swift */,
 				3FFF145A2D2C53C400638F2A /* Route.swift */,
 				3FFF145D2D2C549F00638F2A /* Carrier.swift */,
 				3FA916602D350A6E00982A13 /* PathsAndDirections.swift */,
@@ -407,7 +421,7 @@
 				3F65E71D2D021F23007BDEEA /* ContentView.swift in Sources */,
 				3FA916612D350A6E00982A13 /* PathsAndDirections.swift in Sources */,
 				3FF5CD372D3FE810007E83DF /* StoryPage.swift in Sources */,
-				3FFF12AF2D29A2EE00638F2A /* SearchStore.swift in Sources */,
+				3FFF12AF2D29A2EE00638F2A /* ScheduleViewModel.swift in Sources */,
 				3FFA78942D206AD4004520FA /* ListRow.swift in Sources */,
 				3FFF155C2D30180E00638F2A /* CarrierInfoView.swift in Sources */,
 				3FFA784E2D2049D2004520FA /* CitiesListView.swift in Sources */,
@@ -417,12 +431,14 @@
 				3FFF11F42D298A6000638F2A /* Router.swift in Sources */,
 				3FA916B52D368EDF00982A13 /* CitiesListViewModel.swift in Sources */,
 				3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */,
+				3F0D95152D4BDEDB00057D7D /* StationsListViewModel.swift in Sources */,
 				3FA916632D350AD500982A13 /* DepartureTimesAndTransfer.swift in Sources */,
 				3FF5CD392D3FE835007E83DF /* Story.swift in Sources */,
 				3FA916AE2D35A10100982A13 /* Station.swift in Sources */,
 				3FFF128C2D299DAC00638F2A /* StationsListView.swift in Sources */,
 				3FFF145B2D2C53C400638F2A /* Route.swift in Sources */,
 				3FF5CDBD2D4005F2007E83DF /* ProgressBar.swift in Sources */,
+				3F0D94EE2D4B5A7200057D7D /* NetworkClient.swift in Sources */,
 				3FF5CDA92D40041C007E83DF /* MaskView.swift in Sources */,
 				3FF5CDA52D40031F007E83DF /* MaskFragmentView.swift in Sources */,
 				3FFF13C82D2AF58F00638F2A /* RoutesListView.swift in Sources */,
@@ -513,6 +529,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -568,6 +585,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -602,6 +620,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -637,6 +656,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

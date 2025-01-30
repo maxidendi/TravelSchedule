@@ -6,40 +6,13 @@ struct CitiesListView: View {
     
     let direction: Directions
     @EnvironmentObject var router: Router
-    @EnvironmentObject var store: SearchStore
-    @ObservedObject var viewModel: CitiesListViewModel
+    @StateObject private var viewModel = CitiesListViewModel()
     
     //MARK: - Body
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                TextField(text: $viewModel.searchText, label: {
-                    Text("Введите запрос")
-                        .foregroundColor(.ypGray)
-                })
-                .frame(height: 36)
-                .padding(.horizontal, 33)
-                .background(.ypLightGray)
-                .cornerRadius(10)
-                .overlay(
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.ypGray)
-                            .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 8)
-                        if $viewModel.searchText.wrappedValue.count > 0 {
-                            Button(action: {
-                                $viewModel.searchText.wrappedValue = ""
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.ypGray)
-                                    .padding(.trailing, 8)
-                            }
-                        }
-                    })
-            }
-            .padding(.horizontal, 16)
+            searchBar
             switch viewModel.stateMachine.state {
             case .loading:
                 Spacer()
@@ -56,35 +29,72 @@ struct CitiesListView: View {
                         .font(.system(size: 24, weight: .bold))
                     Spacer()
                 } else {
-                    List(viewModel.filteredCities(), id: \.id) { city in
-                        ListRow(text: city.title)
-                            .padding(.horizontal, 16)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(.init(.zero))
-                            .onTapGesture {
-                                switch direction {
-                                case .from:
-                                    store.cityFrom = city.title
-                                    router.push(.stationsList(city.stations, .from))
-                                case .to:
-                                    store.cityTo = city.title
-                                    router.push(.stationsList(city.stations, .to))
-                                }
-                            }
-                        }
-                    .listStyle(.inset)
+                    citiesList
                 }
             }
         }
         .navigationTitle("Выбор города")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarRole(.editor)
+        .task {
+            await viewModel.getCities()
+        }
         .onAppear {
             viewModel.searchText = ""
         }
     }
+    
+    //MARK: - Subviews
+    
+    private var searchBar: some View {
+        HStack {
+            TextField(text: $viewModel.searchText, label: {
+                Text("Введите запрос")
+                    .foregroundColor(.ypGray)
+            })
+            .frame(height: 36)
+            .padding(.horizontal, 33)
+            .background(.ypLightGray)
+            .cornerRadius(10)
+            .overlay(
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.ypGray)
+                        .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 8)
+                    if $viewModel.searchText.wrappedValue.count > 0 {
+                        Button(action: {
+                            $viewModel.searchText.wrappedValue = ""
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.ypGray)
+                                .padding(.trailing, 8)
+                        }
+                    }
+                })
+        }
+        .padding(.horizontal, 16)
+    }
+    
+    private var citiesList: some View {
+        List(viewModel.filteredCities(), id: \.id) { city in
+            ListRow(text: city.title)
+                .padding(.horizontal, 16)
+                .listRowSeparator(.hidden)
+                .listRowInsets(.init(.zero))
+                .onTapGesture {
+                    switch direction {
+                    case .from:
+                        router.push(.stationsList(city, .from))
+                    case .to:
+                        router.push(.stationsList(city, .to))
+                    }
+                }
+            }
+        .listStyle(.inset)
+    }
 }
 
 #Preview {
-    CitiesListView(direction: .from, viewModel: CitiesListViewModel())
+    CitiesListView(direction: .from)
 }

@@ -6,9 +6,11 @@ final class CitiesListViewModel: ObservableObject {
     
     //MARK: - Properties
     
-    @Published var cities: [City] = []
+    @Published private(set) var cities: [City] = []
+    @Published private(set) var stateMachine = LoadStateMachine()
     @Published var searchText: String = ""
-    @Published var stateMachine = LoadStateMachine()
+
+    private let networkClient = NetworkClient.shared
     
     //MARK: - Methods
     
@@ -19,14 +21,8 @@ final class CitiesListViewModel: ObservableObject {
     func getCities() async {
         stateMachine.state = .loading
         cities.removeAll()
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
-        let service = StationsListService(
-            client: client,
-            apikey: Constants.API.yandexScheduleAPIKey)
         do {
-            let stations = try await service.getStationsList()
+            let stations = try await networkClient.fetchCities()
             stations.countries?
                 .filter { $0.title == "Россия" }
                 .forEach { country in country.regions?.forEach { region in getSettlements(region) }}

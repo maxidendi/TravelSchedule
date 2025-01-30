@@ -7,8 +7,8 @@ struct ContentView: View {
     //MARK: - Properties
     
     @Binding var isDarkModeEnabled: Bool
-    @StateObject private var store = SearchStore()
-    @StateObject private var citiesViewModel = CitiesListViewModel()
+//    @StateObject private var store = ScheduleViewModel()
+//    @StateObject private var citiesViewModel = CitiesListViewModel()
     @StateObject private var router = Router.shared
     
     //MARK: - Body
@@ -17,7 +17,7 @@ struct ContentView: View {
         NavigationStack(path: $router.path) {
             TabView {
                 VStack {
-                    ScheduleView(store: store, router: router, citiesViewModel: citiesViewModel)
+                    ScheduleView(router: router)
                     Divider()
                 }
                 .tabItem {
@@ -36,9 +36,9 @@ struct ContentView: View {
             .accentColor(.ypBlack)
         }
         .tint(.ypBlack)
-        .task {
-            await citiesViewModel.getCities()
-        }
+//        .task {
+//            await citiesViewModel.getCities()
+//        }
     }
 }
 

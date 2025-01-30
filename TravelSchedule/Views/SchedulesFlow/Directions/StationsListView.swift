@@ -3,84 +3,95 @@ import SwiftUI
 struct StationsListView: View {
 
     //MARK: - Properties
-
-    let stationsList: [Station]
+    
     let direction: Directions
-    private var filteredList: [Station] {
-        text.isEmpty ? stationsList :
-                       stationsList.filter{ $0.title.localizedCaseInsensitiveContains(text) }
-    }
+    let city: City
+    @StateObject private var viewModel = StationsListViewModel()
     @EnvironmentObject var router: Router
-    @EnvironmentObject var store: SearchStore
-    @State private var text: String = ""
+    @EnvironmentObject var scheduleViewModel: ScheduleViewModel
     
     //MARK: - Body
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                TextField(text: $text, label: {
-                    Text("Введите запрос")
-                        .foregroundColor(.ypGray)
-                })
-                    .frame(height: 36)
-                    .padding(.horizontal, 33)
-                    .background(.ypLightGray)
-                    .cornerRadius(10)
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.ypGray)
-                                .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 8)
-                            if $text.wrappedValue.count > 0 {
-                                Button(action: {
-                                    self.text = ""
-                                }) {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.ypGray)
-                                        .padding(.trailing, 8)
-                                }
-                            }
-                        }
-                    )
-            }
-                .padding(.horizontal, 16)
-            if filteredList.isEmpty {
+            searchBar
+            if viewModel.filteredStations().isEmpty {
                 Spacer()
-                Text("Город не найден")
+                Text("Станция не найдена")
                     .font(.system(size: 24, weight: .bold))
                 Spacer()
             } else {
-                List(filteredList, id: \.self) { station in
-                    ListRow(text: station.title)
-                        .padding(.horizontal, 16)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(.init(.zero))
-                        .onTapGesture {
-                            switch direction {
-                            case .from:
-                                store.stationFromCode = station.code
-                                store.stationsFrom = station.title
-                                store.setupfromText()
-                                router.clear()
-                            case .to:
-                                store.stationToCode = station.code
-                                store.stationsTo = station.title
-                                store.setupToText()
-                                router.clear()
-                            }
-                        }
-                }
-                .listStyle(.inset)
+                citiesList
             }
         }
         .navigationTitle("Выбор станции")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarRole(.editor)
+        .onAppear {
+            viewModel.searchText = ""
+            viewModel.setupCity(city)
+        }
+    }
+    
+    //MARK: - Subviews
+    
+    private var searchBar: some View {
+        HStack {
+            TextField(text: $viewModel.searchText, label: {
+                Text("Введите запрос")
+                    .foregroundColor(.ypGray)
+            })
+            .frame(height: 36)
+            .padding(.horizontal, 33)
+            .background(.ypLightGray)
+            .cornerRadius(10)
+            .overlay(
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.ypGray)
+                        .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 8)
+                    if $viewModel.searchText.wrappedValue.count > 0 {
+                        Button(action: {
+                            $viewModel.searchText.wrappedValue = ""
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.ypGray)
+                                .padding(.trailing, 8)
+                        }
+                    }
+                })
+        }
+        .padding(.horizontal, 16)
+    }
+    
+    private var citiesList: some View {
+        List(viewModel.filteredStations(), id: \.self) { station in
+            ListRow(text: station.title)
+                .padding(.horizontal, 16)
+                .listRowSeparator(.hidden)
+                .listRowInsets(.init(.zero))
+                .onTapGesture {
+                    switch direction {
+                    case .from:
+                        scheduleViewModel.setupCityAndStation(
+                            city.title,
+                            station.title,
+                            direction: .from)
+                        router.clear()
+                    case .to:
+                        scheduleViewModel.setupCityAndStation(
+                            city.title,
+                            station.title,
+                            direction: .to)
+                        router.clear()
+                    }
+                }
+        }
+        .listStyle(.inset)
     }
 }
 
 #Preview {
-    StationsListView(stationsList: [], direction: .from)
+    StationsListView(direction: .from, city: City(title: "", stations: []))
 }

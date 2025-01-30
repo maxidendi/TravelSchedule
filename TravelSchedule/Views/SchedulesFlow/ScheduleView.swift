@@ -1,13 +1,11 @@
 import SwiftUI
 
-@MainActor
 struct ScheduleView: View {
     
     //MARK: - Properties
 
-    @ObservedObject var store: SearchStore
+    @StateObject private var viewModel = ScheduleViewModel()
     @ObservedObject var router: Router
-    @ObservedObject var citiesViewModel: CitiesListViewModel
     @StateObject private var storiesViewModel = StoriesViewModel()
 
     //MARK: - Body
@@ -15,55 +13,10 @@ struct ScheduleView: View {
     var body: some View {
         StoriesPreviewList(storiesViewModel: storiesViewModel)
             .frame(height: 188)
-        VStack {
-            HStack {
-                VStack {
-                    Group {
-                        TextField(
-                            text: $store.fromText,
-                            label: {Text("Откуда").foregroundColor(.ypGray)})
-                        .gesture(TapGesture().onEnded {
-                            router.push(.citiesList(.from))
-                        })
-                        TextField(
-                            text: $store.toText,
-                            label: {
-                            Text("Куда").foregroundColor(.ypGray)})
-                        .gesture(TapGesture().onEnded {
-                            router.push(.citiesList(.to))
-                        })}
-                    .tint(.clear)
-                    .foregroundColor(.ypBlackUniversal)
-                    .font(.system(size: 17))
-                    .frame(height: 48)
-                    .padding(.leading, 16)
-                }
-                .background(Color.white.cornerRadius(20))
-                .padding(.all, 16)
-                Button(action: store.resetDirections) {
-                    Image(.changeScheduleIcon)
-                        .renderingMode(.template)
-                        .tint(.ypBlue)
-                        .frame(width: 36, height: 36)
-                        .background(Circle().fill(Color.white))
-                        .padding(.trailing, 16)
-                }
-            }
-            .background(Color.ypBlue.cornerRadius(20))
-            .padding(.horizontal, 16)
-            if !store.fromText.isEmpty && !store.toText.isEmpty {
-                Button(
-                    action: { router.push(.carriersList) },
-                    label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .frame(width: 150, height: 60)
-                                .foregroundColor(.ypBlue)
-                            Text("Найти")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(.ypWhiteUniversal)
-                        }
-                    })
+        VStack(spacing: 16) {
+            scheduleSearchBar
+            if !viewModel.fromText.isEmpty && !viewModel.toText.isEmpty {
+                searchButton
             }
             Spacer()
         }
@@ -74,22 +27,82 @@ struct ScheduleView: View {
         .navigationDestination(for: Paths.self) { path in
             switch path {
             case .citiesList(let direction):
-                CitiesListView(direction: direction, viewModel: citiesViewModel)
+                CitiesListView(direction: direction)
                     .environmentObject(router)
-                    .environmentObject(store)
-            case .stationsList(let stations, let direction):
-                StationsListView(stationsList: stations, direction: direction)
+            case .stationsList(let city, let direction):
+                StationsListView(direction: direction, city: city)
                     .environmentObject(router)
-                    .environmentObject(store)
+                    .environmentObject(viewModel)
             case .carriersList:
                 RoutesListView()
                     .environmentObject(router)
-                    .environmentObject(store)
+                    .environmentObject(viewModel)
             }
         }
+    }
+    
+    //MARK: - Subviews
+    
+    private var scheduleSearchBar: some View {
+        HStack(spacing: 16) {
+            VStack(alignment: .leading) {
+                Group {
+                    Text(viewModel.fromText.isEmpty ?
+                         "Откуда\(String(repeating: " ", count: 50))" :
+                            viewModel.fromText)
+                        .foregroundColor(viewModel.fromText.isEmpty ? .ypGray : .ypBlackUniversal)
+                        .onTapGesture {
+                            router.push(.citiesList(.from))
+                        }
+                    Text(viewModel.toText.isEmpty ?
+                         "Куда\(String(repeating: " ", count: 50))" :
+                            viewModel.toText)
+                        .foregroundColor(viewModel.toText.isEmpty ? .ypGray : .ypBlackUniversal)
+                        .onTapGesture {
+                            router.push(.citiesList(.to))
+                        }
+                }
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .tint(.ypWhiteUniversal)
+                .font(.system(size: 17))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(height: 48)
+                .padding(.leading, 16)
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color.ypWhiteUniversal.cornerRadius(20))
+            .padding(.vertical, 16)
+            .padding(.leading, 16)
+            Button(action: viewModel.resetDirections) {
+                Image(.changeScheduleIcon)
+                    .renderingMode(.template)
+                    .tint(.ypBlue)
+                    .frame(width: 36, height: 36)
+                    .background(Circle().fill(Color.white))
+            }
+            .padding(.trailing, 16)
+        }
+        .background(Color.ypBlue.cornerRadius(20))
+        .padding(.horizontal, 16)
+    }
+    
+    private var searchButton: some View {
+        Button(
+            action: { router.push(.carriersList) },
+            label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 16)
+                        .frame(width: 150, height: 60)
+                        .foregroundColor(.ypBlue)
+                    Text("Найти")
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(.ypWhiteUniversal)
+                }
+            })
     }
 }
 
 #Preview {
-    ScheduleView(store: SearchStore(), router: Router.shared, citiesViewModel: CitiesListViewModel())
+    ScheduleView(router: Router.shared)
 }

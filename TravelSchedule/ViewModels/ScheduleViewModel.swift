@@ -21,6 +21,15 @@ final class ScheduleViewModel: ObservableObject {
         }
     }
     
+    func setupStationCodes(_ code: String, _ direction: Directions) {
+        switch direction {
+        case .from:
+            stationFromCode = code
+        case .to:
+            stationToCode = code
+        }
+    }
+    
     func resetDirections() {
         swap(&stationFromCode, &stationToCode)
         swap(&fromText, &toText)

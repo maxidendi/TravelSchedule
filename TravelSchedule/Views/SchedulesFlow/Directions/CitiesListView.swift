@@ -39,9 +39,6 @@ struct CitiesListView: View {
         .task {
             await viewModel.getCities()
         }
-        .onAppear {
-            viewModel.searchText = ""
-        }
     }
     
     //MARK: - Subviews

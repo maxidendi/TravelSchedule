@@ -23,14 +23,18 @@ final class CitiesListViewModel: ObservableObject {
         cities.removeAll()
         do {
             let stations = try await networkClient.fetchCities()
-            stations.countries?
-                .filter { $0.title == "Россия" }
-                .forEach { country in country.regions?.forEach { region in getSettlements(region) }}
-            cities.sort { $0.title < $1.title }
-            stateMachine.state = .loaded
+            parseResult(stations)
         } catch {
             stateMachine.state = .error(.noInternet)
         }
+    }
+    
+    private func parseResult(_ stations: StationsList) {
+        stations.countries?
+            .filter { $0.title == "Россия" }
+            .forEach { country in country.regions?.forEach { region in getSettlements(region) }}
+        cities.sort { $0.title < $1.title }
+        stateMachine.state = .loaded
     }
     
     private func getSettlements(_ region: Components.Schemas.Region) {

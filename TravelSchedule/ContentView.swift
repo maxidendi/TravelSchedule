@@ -1,15 +1,12 @@
 import SwiftUI
 import OpenAPIURLSession
 
-@MainActor
 struct ContentView: View {
     
     //MARK: - Properties
     
-    @Binding var isDarkModeEnabled: Bool
-//    @StateObject private var store = ScheduleViewModel()
-//    @StateObject private var citiesViewModel = CitiesListViewModel()
     @StateObject private var router = Router.shared
+    @StateObject private var settingsViewModel = SettingsViewModel()
     
     //MARK: - Body
     
@@ -25,7 +22,7 @@ struct ContentView: View {
                         .renderingMode(.template)
                 }
                 VStack {
-                    SettingsView(isDarkTheme: $isDarkModeEnabled)
+                    SettingsView(viewModel: settingsViewModel)
                     Divider()
                 }
                 .tabItem {
@@ -36,12 +33,10 @@ struct ContentView: View {
             .accentColor(.ypBlack)
         }
         .tint(.ypBlack)
-//        .task {
-//            await citiesViewModel.getCities()
-//        }
+        .environment(\.colorScheme, settingsViewModel.isDarkModeEnabled ? .dark : .light)
     }
 }
 
 #Preview {
-    ContentView(isDarkModeEnabled: .constant(false))
+    ContentView()
 }

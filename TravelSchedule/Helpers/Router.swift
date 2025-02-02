@@ -1,34 +1,30 @@
 import SwiftUI
 
+@MainActor
 final class Router: ObservableObject {
     
     //MARK: - Properties
+        
+    @Published var path: [Paths] = []
     
     static let shared = Router()
     private init() {}
-    @Published var path: [Paths] = []
     
     //MARK: - Methods
     
-    func push(_ path: Paths) {
-        DispatchQueue.main.async {
-            self.path.append(path)
-        }
+    func push(_ newPath: Paths) {
+        path.append(newPath)
     }
     
     func pop() {
-        DispatchQueue.main.async {
-            if self.path.count > 1 {
-                self.path.removeLast()
-            }
+        if path.count > 1 {
+            path.removeLast()
         }
     }
     
     func clear() {
-        DispatchQueue.main.async {
-            if self.path.count > 1 {
-                self.path.removeAll()
-            }
-        }
+        if path.count > 1 {
+            path.removeAll()
+    }
     }
 }

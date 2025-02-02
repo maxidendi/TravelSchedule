@@ -6,9 +6,17 @@ struct StationsListView: View {
     
     let direction: Directions
     let city: City
-    @StateObject private var viewModel = StationsListViewModel()
+    @StateObject private var viewModel: StationsListViewModel
     @EnvironmentObject var router: Router
     @EnvironmentObject var scheduleViewModel: ScheduleViewModel
+    
+    //MARK: - Init
+    
+    init(direction: Directions, city: City) {
+        self.direction = direction
+        self.city = city
+        _viewModel = .init(wrappedValue: .init(city: city))
+    }
     
     //MARK: - Body
 
@@ -27,10 +35,6 @@ struct StationsListView: View {
         .navigationTitle("Выбор станции")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarRole(.editor)
-        .onAppear {
-            viewModel.searchText = ""
-            viewModel.setupCity(city)
-        }
     }
     
     //MARK: - Subviews
@@ -78,12 +82,14 @@ struct StationsListView: View {
                             city.title,
                             station.title,
                             direction: .from)
+                        scheduleViewModel.setupStationCodes(station.code, .from)
                         router.clear()
                     case .to:
                         scheduleViewModel.setupCityAndStation(
                             city.title,
                             station.title,
                             direction: .to)
+                        scheduleViewModel.setupStationCodes(station.code, .to)
                         router.clear()
                     }
                 }

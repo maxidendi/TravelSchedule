@@ -4,7 +4,13 @@ struct SettingsView: View {
     
     //MARK: - Properties
     
-    @Binding var isDarkTheme: Bool
+    @State private var isDarkTheme: Bool
+    @ObservedObject var viewModel: SettingsViewModel
+    
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        isDarkTheme = viewModel.isDarkModeEnabled
+    }
     
     //MARK: - Body
     
@@ -12,8 +18,11 @@ struct SettingsView: View {
         VStack {
             Toggle("Темная тема",
                     isOn: $isDarkTheme)
+            .onChange(of: isDarkTheme) { newValue in
+                viewModel.toggleDarkMode()
+            }
             .toggleStyle(SwitchToggleStyle(tint: .ypBlue))
-            NavigationLink(destination: UserAgreementView()) {
+            NavigationLink(destination: UserAgreementView(urlString: viewModel.urlString)) {
                 ListRow(text: "Пользовательское соглашение")
             }
             .foregroundColor(.ypBlack)
@@ -34,5 +43,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(isDarkTheme: .constant(false))
+    SettingsView(viewModel: SettingsViewModel())
 }

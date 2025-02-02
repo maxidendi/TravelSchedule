@@ -6,12 +6,11 @@ struct ScheduleView: View {
 
     @StateObject private var viewModel = ScheduleViewModel()
     @ObservedObject var router: Router
-    @StateObject private var storiesViewModel = StoriesViewModel()
 
     //MARK: - Body
 
     var body: some View {
-        StoriesPreviewList(storiesViewModel: storiesViewModel)
+        StoriesPreviewList(storiesViewModel: StoriesViewModel())
             .frame(height: 188)
         VStack(spacing: 16) {
             scheduleSearchBar

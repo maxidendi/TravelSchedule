@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3F0D94EE2D4B5A7200057D7D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D94ED2D4B5A7200057D7D /* NetworkClient.swift */; };
 		3F0D95152D4BDEDB00057D7D /* StationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D95142D4BDEDB00057D7D /* StationsListViewModel.swift */; };
+		3F0D95382D4F5D1F00057D7D /* CarrierInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D95372D4F5D1F00057D7D /* CarrierInfoViewModel.swift */; };
+		3F0D953E2D4F7D3500057D7D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D953D2D4F7D3500057D7D /* SettingsViewModel.swift */; };
 		3F65651F2D0CAFE4001D355E /* CarrierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65651E2D0CAFE4001D355E /* CarrierService.swift */; };
 		3F6565242D0CB14A001D355E /* StationsListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6565232D0CB14A001D355E /* StationsListService.swift */; };
 		3F65652A2D0D691F001D355E /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 3F6565292D0D691F001D355E /* openapi.yaml */; };
@@ -69,6 +71,8 @@
 /* Begin PBXFileReference section */
 		3F0D94ED2D4B5A7200057D7D /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		3F0D95142D4BDEDB00057D7D /* StationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListViewModel.swift; sourceTree = "<group>"; };
+		3F0D95372D4F5D1F00057D7D /* CarrierInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoViewModel.swift; sourceTree = "<group>"; };
+		3F0D953D2D4F7D3500057D7D /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		3F65651E2D0CAFE4001D355E /* CarrierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierService.swift; sourceTree = "<group>"; };
 		3F6565232D0CB14A001D355E /* StationsListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListService.swift; sourceTree = "<group>"; };
 		3F6565292D0D691F001D355E /* openapi.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
@@ -291,6 +295,8 @@
 				3FF5CCE92D3E2B10007E83DF /* RoutesListViewModel.swift */,
 				3FF5CEBC2D421C1D007E83DF /* StoriesViewModel.swift */,
 				3F0D95142D4BDEDB00057D7D /* StationsListViewModel.swift */,
+				3F0D95372D4F5D1F00057D7D /* CarrierInfoViewModel.swift */,
+				3F0D953D2D4F7D3500057D7D /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -453,7 +459,9 @@
 				3FF5CCEA2D3E2B10007E83DF /* RoutesListViewModel.swift in Sources */,
 				3FF5CBCC2D383001007E83DF /* LoadStateMachine.swift in Sources */,
 				3F65E75A2D04DB7D007BDEEA /* RoutesFromService.swift in Sources */,
+				3F0D953E2D4F7D3500057D7D /* SettingsViewModel.swift in Sources */,
 				3F6565752D0DF497001D355E /* CopyrightService.swift in Sources */,
+				3F0D95382D4F5D1F00057D7D /* CarrierInfoViewModel.swift in Sources */,
 				3FA916AB2D35A0C600982A13 /* City.swift in Sources */,
 				3FFA78132D1DCEAD004520FA /* SettingsView.swift in Sources */,
 			);

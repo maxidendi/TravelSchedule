@@ -6,22 +6,35 @@ final class RoutesListViewModel: ObservableObject {
     
     //MARK: - Properties
     
-    @Published var routes: [Route] = []
-    @Published var stateMachine = LoadStateMachine()
+    @Published private(set) var routes: [Route] = []
+    @Published private(set) var stateMachine = LoadStateMachine()
+    @Published private(set) var departureFilters: Set<DepartureTimes> = []
+    @Published private(set) var isTransferedFilter: Bool? = nil
+    
+    private let networkClient = NetworkClient.shared
     
     //MARK: - Methods
     
+    func getFilteredCarrierList() -> [Route] {
+        if departureFilters.isEmpty {
+            return isTransferedFilter != nil ? routes.filter { $0.isTransfered == isTransferedFilter } : routes
+        } else {
+            return isTransferedFilter != nil ?
+            routes.filter { $0.isTransfered == isTransferedFilter && departureFilters.contains($0.dayTime) } :
+            routes.filter { departureFilters.contains($0.dayTime) }
+        }
+    }
+    
+    func setFilters(_ departureFilters: Set<DepartureTimes>, _ transferFilter: Bool?) {
+        self.departureFilters = departureFilters
+        isTransferedFilter = transferFilter
+    }
+    
     func getRoutes(from: String, to: String) async {
-        routes.removeAll()
         stateMachine.state = .loading
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
-        let service = RoutesWithDestinationService(
-            client: client,
-            apikey: Constants.API.yandexScheduleAPIKey)
+        routes.removeAll()
         do {
-            let routes = try await service.getRoutesWithDestination(from: from, to: to)
+            let routes = try await networkClient.fetchRoutes(from: from, to: to)
             routes.segments?.forEach{ segment in getRoute(from: segment) }
             stateMachine.state = .loaded
         } catch {

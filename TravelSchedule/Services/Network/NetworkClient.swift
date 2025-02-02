@@ -6,6 +6,8 @@ actor NetworkClient {
     //MARK: - Properties
     
     private var cachedStationsList: StationsList?
+    private var cachedRoutesList: RoutesWithDestination?
+    private var currentDestinationCodes: (String, String)?
     private let client: Client
     private let apiKey: String
     
@@ -32,5 +34,21 @@ actor NetworkClient {
         let stationsList = try await service.getStationsList()
         cachedStationsList = stationsList
         return stationsList
+    }
+    
+    func fetchRoutes(from fromCode: String, to toCode: String) async throws -> RoutesWithDestination {
+        if let cachedRoutesList,
+            let currentDestinationCodes,
+            currentDestinationCodes == (fromCode, toCode)
+        {
+            return cachedRoutesList
+        }
+        let service = RoutesWithDestinationService(
+            client: client,
+            apikey: Constants.API.yandexScheduleAPIKey)
+        let routesWithDestination = try await service.getRoutesWithDestination(from: fromCode, to: toCode)
+        cachedRoutesList = routesWithDestination
+        currentDestinationCodes = (fromCode, toCode)
+        return routesWithDestination
     }
 }

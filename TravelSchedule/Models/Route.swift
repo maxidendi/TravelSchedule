@@ -31,7 +31,7 @@ struct Route: Identifiable {
     let dayTime: DepartureTimes
     var isTransfered: Bool
     
-    static private let isoDateFormatted = ISO8601DateFormatter()
+    static nonisolated(unsafe) private let isoDateFormatted = ISO8601DateFormatter()
     static private let dateFormatter = DateFormatter()
     
     var formattedDepartureDate: String? {

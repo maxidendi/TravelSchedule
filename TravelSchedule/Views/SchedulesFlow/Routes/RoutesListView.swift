@@ -11,8 +11,8 @@ struct RoutesListView: View {
     //MARK: - Body
 
     var body: some View {
-        ZStack {
-            switch routesListViewModel.stateMachine.state {
+        ZStack(alignment: .leading) {
+            switch routesListViewModel.state {
             case .loading:
                 VStack(alignment: .leading) {
                     titleView
@@ -33,7 +33,17 @@ struct RoutesListView: View {
                 .padding()
                 stubAndButtonView
             case .error(let error):
-                ErrorView(errorType: error)
+                List {
+                    Spacer(minLength: 100)
+                    ErrorView(errorType: error)
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(.inset)
+                .refreshable {
+                    await routesListViewModel.getRoutes(
+                        from: scheduleViewModel.stationFromCode,
+                        to: scheduleViewModel.stationToCode)
+                }
             }
         }
         .navigationTitle("")
@@ -54,6 +64,7 @@ struct RoutesListView: View {
             .padding(.bottom, 16)
             .lineLimit(3)
             .multilineTextAlignment(.leading)
+            .truncationMode(.tail)
             .font(.system(size: 24, weight: .bold))
     }
     

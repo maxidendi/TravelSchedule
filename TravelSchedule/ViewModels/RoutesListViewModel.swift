@@ -1,5 +1,6 @@
 import Foundation
 import OpenAPIURLSession
+import OpenAPIRuntime
 
 @MainActor
 final class RoutesListViewModel: ObservableObject {
@@ -7,7 +8,7 @@ final class RoutesListViewModel: ObservableObject {
     //MARK: - Properties
     
     @Published private(set) var routes: [Route] = []
-    @Published private(set) var stateMachine = LoadStateMachine()
+    @Published private(set) var state: LoadState = .loading
     @Published private(set) var departureFilters: Set<DepartureTimes> = []
     @Published private(set) var isTransferedFilter: Bool? = nil
     
@@ -31,14 +32,33 @@ final class RoutesListViewModel: ObservableObject {
     }
     
     func getRoutes(from: String, to: String) async {
-        stateMachine.state = .loading
+        state = .loading
         routes.removeAll()
         do {
             let routes = try await networkClient.fetchRoutes(from: from, to: to)
             routes.segments?.forEach{ segment in getRoute(from: segment) }
-            stateMachine.state = .loaded
+            state = .loaded
         } catch {
-            stateMachine.state = .error(.noInternet)
+            if let error = error as? ClientError,
+               let code = error.response?.status.code {
+                switch code {
+                case 400..<500:
+                    state = .error(.badRequest)
+                case 500..<600:
+                    state = .error(.serverError)
+                default:
+                    state = .error(.badRequest)
+                }
+            } else if let error = error as? ClientError {
+                state = error.causeDescription == "The request timed out." ? .error(.noInternet) : .error(.badRequest)
+            } else {
+                switch error._code {
+                case NSURLErrorTimedOut, NSURLErrorNotConnectedToInternet:
+                    state = .error(.noInternet)
+                default:
+                    state = .error(.badRequest)
+                }
+            }
         }
     }
     

@@ -49,14 +49,14 @@ struct ScheduleView: View {
                     Text(viewModel.fromText.isEmpty ?
                          "Откуда\(String(repeating: " ", count: 50))" :
                             viewModel.fromText)
-                        .foregroundColor(viewModel.fromText.isEmpty ? .ypGray : .ypBlackUniversal)
+                        .foregroundStyle(viewModel.fromText.isEmpty ? .ypGray : .ypBlackUniversal)
                         .onTapGesture {
                             router.push(.citiesList(.from))
                         }
                     Text(viewModel.toText.isEmpty ?
                          "Куда\(String(repeating: " ", count: 50))" :
                             viewModel.toText)
-                        .foregroundColor(viewModel.toText.isEmpty ? .ypGray : .ypBlackUniversal)
+                        .foregroundStyle(viewModel.toText.isEmpty ? .ypGray : .ypBlackUniversal)
                         .onTapGesture {
                             router.push(.citiesList(.to))
                         }
@@ -93,10 +93,10 @@ struct ScheduleView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
                         .frame(width: 150, height: 60)
-                        .foregroundColor(.ypBlue)
+                        .foregroundStyle(.ypBlue)
                     Text("Найти")
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(.ypWhiteUniversal)
+                        .foregroundStyle(.ypWhiteUniversal)
                 }
             })
     }

@@ -37,7 +37,7 @@
 		3FA916AB2D35A0C600982A13 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA916AA2D35A0C600982A13 /* City.swift */; };
 		3FA916AE2D35A10100982A13 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA916AD2D35A10100982A13 /* Station.swift */; };
 		3FA916B52D368EDF00982A13 /* CitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA916B42D368EDF00982A13 /* CitiesListViewModel.swift */; };
-		3FF5CBCC2D383001007E83DF /* LoadStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CBCB2D383001007E83DF /* LoadStateMachine.swift */; };
+		3FF5CBCC2D383001007E83DF /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CBCB2D383001007E83DF /* LoadState.swift */; };
 		3FF5CCEA2D3E2B10007E83DF /* RoutesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CCE92D3E2B10007E83DF /* RoutesListViewModel.swift */; };
 		3FF5CD372D3FE810007E83DF /* StoryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CD362D3FE810007E83DF /* StoryPage.swift */; };
 		3FF5CD392D3FE835007E83DF /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5CD382D3FE835007E83DF /* Story.swift */; };
@@ -98,7 +98,7 @@
 		3FA916AA2D35A0C600982A13 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		3FA916AD2D35A10100982A13 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		3FA916B42D368EDF00982A13 /* CitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesListViewModel.swift; sourceTree = "<group>"; };
-		3FF5CBCB2D383001007E83DF /* LoadStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStateMachine.swift; sourceTree = "<group>"; };
+		3FF5CBCB2D383001007E83DF /* LoadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadState.swift; sourceTree = "<group>"; };
 		3FF5CCE92D3E2B10007E83DF /* RoutesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListViewModel.swift; sourceTree = "<group>"; };
 		3FF5CD362D3FE810007E83DF /* StoryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryPage.swift; sourceTree = "<group>"; };
 		3FF5CD382D3FE835007E83DF /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 				3FA9169F2D357A8700982A13 /* ErrorType.swift */,
 				3FA916AA2D35A0C600982A13 /* City.swift */,
 				3FA916AD2D35A10100982A13 /* Station.swift */,
-				3FF5CBCB2D383001007E83DF /* LoadStateMachine.swift */,
+				3FF5CBCB2D383001007E83DF /* LoadState.swift */,
 				3FF5CD382D3FE835007E83DF /* Story.swift */,
 				3FF5CE932D420D28007E83DF /* StoriesPack.swift */,
 			);
@@ -457,7 +457,7 @@
 				3FA916822D35776C00982A13 /* ErrorView.swift in Sources */,
 				3F65E71E2D021F23007BDEEA /* TravelScheduleApp.swift in Sources */,
 				3FF5CCEA2D3E2B10007E83DF /* RoutesListViewModel.swift in Sources */,
-				3FF5CBCC2D383001007E83DF /* LoadStateMachine.swift in Sources */,
+				3FF5CBCC2D383001007E83DF /* LoadState.swift in Sources */,
 				3F65E75A2D04DB7D007BDEEA /* RoutesFromService.swift in Sources */,
 				3F0D953E2D4F7D3500057D7D /* SettingsViewModel.swift in Sources */,
 				3F6565752D0DF497001D355E /* CopyrightService.swift in Sources */,

@@ -1,5 +1,6 @@
 import Foundation
 import OpenAPIURLSession
+import OpenAPIRuntime
 
 @MainActor
 final class CitiesListViewModel: ObservableObject {
@@ -7,7 +8,7 @@ final class CitiesListViewModel: ObservableObject {
     //MARK: - Properties
     
     @Published private(set) var cities: [City] = []
-    @Published private(set) var stateMachine = LoadStateMachine()
+    @Published var state : LoadState = .loading 
     @Published var searchText: String = ""
 
     private let networkClient = NetworkClient.shared
@@ -19,13 +20,32 @@ final class CitiesListViewModel: ObservableObject {
     }
     
     func getCities() async {
-        stateMachine.state = .loading
+        state = .loading
         cities.removeAll()
         do {
             let stations = try await networkClient.fetchCities()
             parseResult(stations)
         } catch {
-            stateMachine.state = .error(.noInternet)
+            if let error = error as? ClientError,
+               let code = error.response?.status.code {
+                switch code {
+                case 400..<500:
+                    state = .error(.badRequest)
+                case 500..<600:
+                    state = .error(.serverError)
+                default:
+                    state = .error(.badRequest)
+                }
+            } else if let error = error as? ClientError {
+                state = error.causeDescription == "The request timed out." ? .error(.noInternet) : .error(.badRequest)
+            } else {
+                switch error._code {
+                case NSURLErrorTimedOut, NSURLErrorNotConnectedToInternet:
+                    state = .error(.noInternet)
+                default:
+                    state = .error(.badRequest)
+                }
+            }
         }
     }
     
@@ -34,7 +54,7 @@ final class CitiesListViewModel: ObservableObject {
             .filter { $0.title == "Россия" }
             .forEach { country in country.regions?.forEach { region in getSettlements(region) }}
         cities.sort { $0.title < $1.title }
-        stateMachine.state = .loaded
+        state = .loaded
     }
     
     private func getSettlements(_ region: Components.Schemas.Region) {

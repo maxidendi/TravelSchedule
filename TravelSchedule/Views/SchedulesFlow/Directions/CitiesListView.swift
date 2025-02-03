@@ -13,15 +13,21 @@ struct CitiesListView: View {
     var body: some View {
         VStack(spacing: 16) {
             searchBar
-            switch viewModel.stateMachine.state {
+            switch viewModel.state {
             case .loading:
                 Spacer()
                 ProgressView()
                 Spacer()
             case .error(let error):
-                Spacer()
-                ErrorView(errorType: error)
-                Spacer()
+                List {
+                    Spacer(minLength: 100)
+                    ErrorView(errorType: error)
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(.inset)
+                .refreshable {
+                    await viewModel.getCities()
+                }
             case .loaded:
                 if viewModel.filteredCities().isEmpty {
                     Spacer()

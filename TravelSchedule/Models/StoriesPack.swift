@@ -1,6 +1,6 @@
 import Foundation
 
-struct StoriesPack: Identifiable {
+struct StoriesPack: Identifiable, Sendable {
     var id: UUID = UUID()
     let image: ImageResource
     let stories: [Story]

@@ -10,7 +10,7 @@ final class SettingsViewModel: ObservableObject {
     private let store = UserDefaults.standard
     
     init() {
-        self.isDarkModeEnabled = store.bool(forKey: Constants.isDarkThemeKey)
+        self.isDarkModeEnabled = store.bool(forKey: Constants.UserDefaults.isDarkThemeKey)
         self.urlString = Constants.API.agreementURLString
     }
     
@@ -18,6 +18,6 @@ final class SettingsViewModel: ObservableObject {
     
     func toggleDarkMode() {
         isDarkModeEnabled.toggle()
-        store.set(isDarkModeEnabled, forKey: Constants.isDarkThemeKey)
+        store.set(isDarkModeEnabled, forKey: Constants.UserDefaults.isDarkThemeKey)
     }
 }

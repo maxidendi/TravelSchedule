@@ -4,8 +4,8 @@ struct ScheduleView: View {
     
     //MARK: - Properties
 
-    @StateObject private var viewModel = ScheduleViewModel()
-    @ObservedObject var router: Router
+    @Binding var path: [Paths]
+    @ObservedObject var viewModel: ScheduleViewModel
 
     //MARK: - Body
 
@@ -23,21 +23,6 @@ struct ScheduleView: View {
         .ignoresSafeArea()
         .navigationTitle("")
         .toolbar(.hidden, for: .navigationBar)
-        .navigationDestination(for: Paths.self) { path in
-            switch path {
-            case .citiesList(let direction):
-                CitiesListView(direction: direction)
-                    .environmentObject(router)
-            case .stationsList(let city, let direction):
-                StationsListView(direction: direction, city: city)
-                    .environmentObject(router)
-                    .environmentObject(viewModel)
-            case .carriersList:
-                RoutesListView()
-                    .environmentObject(router)
-                    .environmentObject(viewModel)
-            }
-        }
     }
     
     //MARK: - Subviews
@@ -49,17 +34,17 @@ struct ScheduleView: View {
                     Text(viewModel.fromText.isEmpty ?
                          "Откуда\(String(repeating: " ", count: 50))" :
                             viewModel.fromText)
-                        .foregroundStyle(viewModel.fromText.isEmpty ? .ypGray : .ypBlackUniversal)
-                        .onTapGesture {
-                            router.push(.citiesList(.from))
-                        }
+                    .foregroundStyle(viewModel.fromText.isEmpty ? .ypGray : .ypBlackUniversal)
+                    .onTapGesture {
+                        path.append(.citiesList(.from))
+                    }
                     Text(viewModel.toText.isEmpty ?
                          "Куда\(String(repeating: " ", count: 50))" :
                             viewModel.toText)
-                        .foregroundStyle(viewModel.toText.isEmpty ? .ypGray : .ypBlackUniversal)
-                        .onTapGesture {
-                            router.push(.citiesList(.to))
-                        }
+                    .foregroundStyle(viewModel.toText.isEmpty ? .ypGray : .ypBlackUniversal)
+                    .onTapGesture {
+                        path.append(.citiesList(.to))
+                    }
                 }
                 .lineLimit(1)
                 .truncationMode(.tail)
@@ -71,8 +56,7 @@ struct ScheduleView: View {
             }
             .frame(maxWidth: .infinity)
             .background(Color.ypWhiteUniversal.cornerRadius(20))
-            .padding(.vertical, 16)
-            .padding(.leading, 16)
+            .padding([.vertical, .leading], 16)
             Button(action: viewModel.resetDirections) {
                 Image(.changeScheduleIcon)
                     .renderingMode(.template)
@@ -88,7 +72,7 @@ struct ScheduleView: View {
     
     private var searchButton: some View {
         Button(
-            action: { router.push(.carriersList) },
+            action: { path.append(.carriersList) },
             label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
@@ -103,5 +87,5 @@ struct ScheduleView: View {
 }
 
 #Preview {
-    ScheduleView(router: Router.shared)
+    ScheduleView(path: .constant([]), viewModel: ScheduleViewModel())
 }

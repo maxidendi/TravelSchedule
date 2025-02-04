@@ -36,14 +36,12 @@ final class CitiesListViewModel: ObservableObject {
                 default:
                     state = .error(.badRequest)
                 }
-            } else if let error = error as? ClientError {
-                state = error.causeDescription == "The request timed out." ? .error(.noInternet) : .error(.badRequest)
             } else {
                 switch error._code {
                 case NSURLErrorTimedOut, NSURLErrorNotConnectedToInternet:
                     state = .error(.noInternet)
                 default:
-                    state = .error(.badRequest)
+                    state = .error(.noInternet)
                 }
             }
         }

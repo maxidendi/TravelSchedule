@@ -5,30 +5,25 @@ struct CitiesListView: View {
     //MARK: - Properties
     
     let direction: Directions
-    @EnvironmentObject var router: Router
+    @Binding var path: [Paths]
     @StateObject private var viewModel = CitiesListViewModel()
     
     //MARK: - Body
 
     var body: some View {
         VStack(spacing: 16) {
-            searchBar
             switch viewModel.state {
             case .loading:
+                searchBar
                 Spacer()
                 ProgressView()
                 Spacer()
             case .error(let error):
-                List {
-                    Spacer(minLength: 100)
-                    ErrorView(errorType: error)
-                        .listRowSeparator(.hidden)
-                }
-                .listStyle(.inset)
-                .refreshable {
-                    await viewModel.getCities()
-                }
+                Spacer()
+                ErrorView(errorType: error)
+                Spacer()
             case .loaded:
+                searchBar
                 if viewModel.filteredCities().isEmpty {
                     Spacer()
                     Text("Город не найден")
@@ -88,9 +83,9 @@ struct CitiesListView: View {
                 .onTapGesture {
                     switch direction {
                     case .from:
-                        router.push(.stationsList(city, .from))
+                        path.append(.stationsList(city, .from))
                     case .to:
-                        router.push(.stationsList(city, .to))
+                        path.append(.stationsList(city, .to))
                     }
                 }
             }
@@ -99,5 +94,5 @@ struct CitiesListView: View {
 }
 
 #Preview {
-    CitiesListView(direction: .from)
+    CitiesListView(direction: .from, path: .constant([]))
 }

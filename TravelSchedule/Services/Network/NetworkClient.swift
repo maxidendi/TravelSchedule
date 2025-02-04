@@ -17,7 +17,7 @@ actor NetworkClient {
     
     //MARK: - Init
     
-    init(apiKey: String = Constants.API.yandexScheduleAPIKey) {
+    private init(apiKey: String = Constants.API.yandexScheduleAPIKey) {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 10
         config.timeoutIntervalForResource = 10

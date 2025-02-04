@@ -4,9 +4,9 @@ struct RoutesListView: View {
     
     //MARK: - Properties
     
-    @EnvironmentObject var scheduleViewModel: ScheduleViewModel
-    @EnvironmentObject var router: Router
+    @Binding var path: [Paths]
     @StateObject private var routesListViewModel = RoutesListViewModel()
+    @EnvironmentObject var scheduleViewModel: ScheduleViewModel
     
     //MARK: - Body
 
@@ -33,17 +33,9 @@ struct RoutesListView: View {
                 .padding()
                 stubAndButtonView
             case .error(let error):
-                List {
-                    Spacer(minLength: 100)
-                    ErrorView(errorType: error)
-                        .listRowSeparator(.hidden)
-                }
-                .listStyle(.inset)
-                .refreshable {
-                    await routesListViewModel.getRoutes(
-                        from: scheduleViewModel.stationFromCode,
-                        to: scheduleViewModel.stationToCode)
-                }
+                Spacer()
+                ErrorView(errorType: error)
+                Spacer()
             }
         }
         .navigationTitle("")
@@ -72,7 +64,7 @@ struct RoutesListView: View {
         ScrollView(.vertical) {
             ForEach(routesListViewModel.getFilteredCarrierList()) { route in
                 NavigationLink {
-                    CarrierInfoView(viewModel: CarrierInfoViewModel(carrier: route.carrier))
+                    CarrierInfoView(carrier: route.carrier)
                 } label: {
                     CarrierRow(route: route)
                         .listRowSeparator(.hidden)
@@ -93,8 +85,6 @@ struct RoutesListView: View {
             Spacer()
             NavigationLink {
                 FiltersView(routesViewModel: routesListViewModel)
-                .navigationTitle("")
-                .toolbarRole(.editor)
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
@@ -106,7 +96,7 @@ struct RoutesListView: View {
                             .font(.system(size: 17, weight: .bold))
                             .foregroundColor(.ypWhiteUniversal)
                         if !routesListViewModel.departureFilters.isEmpty ||
-                            routesListViewModel.isTransferedFilter != nil {
+                            routesListViewModel.isTransferredFilter != nil {
                             Circle()
                                 .fill(.ypRed)
                                 .frame(width: 8, height: 8)
@@ -120,6 +110,6 @@ struct RoutesListView: View {
 }
 
 #Preview {
-    RoutesListView()
+    RoutesListView(path: .constant([]))
         .environmentObject(ScheduleViewModel())
 }

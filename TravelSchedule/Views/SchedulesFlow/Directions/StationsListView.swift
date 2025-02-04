@@ -6,15 +6,16 @@ struct StationsListView: View {
     
     let direction: Directions
     let city: City
+    @Binding var path: [Paths]
     @StateObject private var viewModel: StationsListViewModel
-    @EnvironmentObject var router: Router
     @EnvironmentObject var scheduleViewModel: ScheduleViewModel
     
     //MARK: - Init
     
-    init(direction: Directions, city: City) {
+    init(direction: Directions, city: City, path: Binding<[Paths]>) {
         self.direction = direction
         self.city = city
+        _path = path
         _viewModel = .init(wrappedValue: .init(city: city))
     }
     
@@ -83,14 +84,14 @@ struct StationsListView: View {
                             station.title,
                             direction: .from)
                         scheduleViewModel.setupStationCodes(station.code, .from)
-                        router.clear()
+                        path.removeAll()
                     case .to:
                         scheduleViewModel.setupCityAndStation(
                             city.title,
                             station.title,
                             direction: .to)
                         scheduleViewModel.setupStationCodes(station.code, .to)
-                        router.clear()
+                        path.removeAll()
                     }
                 }
         }
@@ -99,5 +100,5 @@ struct StationsListView: View {
 }
 
 #Preview {
-    StationsListView(direction: .from, city: City(title: "", stations: []))
+    StationsListView(direction: .from, city: City(title: "", stations: []), path: .constant([]))
 }

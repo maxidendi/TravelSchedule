@@ -1,17 +1,15 @@
- import SwiftUI
+import SwiftUI
 
 struct CarrierInfoView: View {
     
     //MARK: - Properties
     
-    @ObservedObject var viewModel: CarrierInfoViewModel
-    @EnvironmentObject var router: Router
-    
+    let carrier: Carrier
     //MARK: - Body
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            AsyncImage(url: URL(string: viewModel.carrier.logo)) { phase in
+            AsyncImage(url: URL(string: carrier.logo)) { phase in
                 switch phase {
                 case .empty, .failure(_):
                     Image(.logoImageStub)
@@ -25,7 +23,7 @@ struct CarrierInfoView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: 104)
-            Text(viewModel.carrier.title)
+            Text(carrier.title)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.ypBlack)
             VStack(alignment: .leading) {
@@ -33,7 +31,7 @@ struct CarrierInfoView: View {
                     Text("E-Mail")
                         .font(.system(size: 17, weight: .regular))
                         .foregroundColor(.ypBlack)
-                    Text(viewModel.carrier.email)
+                    Text(carrier.email)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.ypBlue)
                 }
@@ -42,7 +40,7 @@ struct CarrierInfoView: View {
                     Text("Телефон")
                         .font(.system(size: 17, weight: .regular))
                         .foregroundColor(.ypBlack)
-                    Text(viewModel.carrier.phone)
+                    Text(carrier.phone)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.ypBlue)
                 }
@@ -56,10 +54,5 @@ struct CarrierInfoView: View {
 }
 
 #Preview {
-    CarrierInfoView(viewModel: CarrierInfoViewModel(
-        carrier: Carrier(
-            logo: "https://yastat.net/s3/rasp/media/data/company/logo/logo.gif",
-            title: "OAO \"FGK\"",
-            email: "fgk@fgk.ru",
-            phone: "+7 499 999 999")))
+    CarrierInfoView(carrier: Carrier(logo: "", title: "", email: "", phone: ""))
 }

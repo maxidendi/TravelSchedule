@@ -1,6 +1,6 @@
 import Foundation
 
-struct Route: Identifiable {
+struct Route: Identifiable, Sendable {
     
     //MARK: - Init
     
@@ -10,7 +10,7 @@ struct Route: Identifiable {
         transfer: String,
         departureDate: String,
         arrivalDate: String,
-        isTransfered: Bool
+        isTransferred: Bool
     ) {
         self.id = id
         self.carrier = carrier
@@ -18,7 +18,7 @@ struct Route: Identifiable {
         self.departureDate = departureDate
         self.arrivalDate = arrivalDate
         self.dayTime = DepartureTimes.from(date: Route.isoDateFormatted.date(from: departureDate))
-        self.isTransfered = isTransfered
+        self.isTransferred = isTransferred
     }
     
     //MARK: - Properties
@@ -29,7 +29,7 @@ struct Route: Identifiable {
     let departureDate: String
     let arrivalDate: String
     let dayTime: DepartureTimes
-    var isTransfered: Bool
+    var isTransferred: Bool
     
     static nonisolated(unsafe) private let isoDateFormatted = ISO8601DateFormatter()
     static private let dateFormatter = DateFormatter()

@@ -10,7 +10,7 @@ final class RoutesListViewModel: ObservableObject {
     @Published private(set) var routes: [Route] = []
     @Published private(set) var state: LoadState = .loading
     @Published private(set) var departureFilters: Set<DepartureTimes> = []
-    @Published private(set) var isTransferedFilter: Bool? = nil
+    @Published private(set) var isTransferredFilter: Bool? = nil
     
     private let networkClient = NetworkClient.shared
     
@@ -18,17 +18,17 @@ final class RoutesListViewModel: ObservableObject {
     
     func getFilteredCarrierList() -> [Route] {
         if departureFilters.isEmpty {
-            return isTransferedFilter != nil ? routes.filter { $0.isTransfered == isTransferedFilter } : routes
+            return isTransferredFilter != nil ? routes.filter { $0.isTransferred == isTransferredFilter } : routes
         } else {
-            return isTransferedFilter != nil ?
-            routes.filter { $0.isTransfered == isTransferedFilter && departureFilters.contains($0.dayTime) } :
+            return isTransferredFilter != nil ?
+            routes.filter { $0.isTransferred == isTransferredFilter && departureFilters.contains($0.dayTime) } :
             routes.filter { departureFilters.contains($0.dayTime) }
         }
     }
     
     func setFilters(_ departureFilters: Set<DepartureTimes>, _ transferFilter: Bool?) {
         self.departureFilters = departureFilters
-        isTransferedFilter = transferFilter
+        isTransferredFilter = transferFilter
     }
     
     func getRoutes(from: String, to: String) async {
@@ -49,14 +49,12 @@ final class RoutesListViewModel: ObservableObject {
                 default:
                     state = .error(.badRequest)
                 }
-            } else if let error = error as? ClientError {
-                state = error.causeDescription == "The request timed out." ? .error(.noInternet) : .error(.badRequest)
             } else {
                 switch error._code {
                 case NSURLErrorTimedOut, NSURLErrorNotConnectedToInternet:
                     state = .error(.noInternet)
                 default:
-                    state = .error(.badRequest)
+                    state = .error(.noInternet)
                 }
             }
         }
@@ -74,7 +72,7 @@ final class RoutesListViewModel: ObservableObject {
             transfer: segment.stops ?? "",
             departureDate: segment.departure ?? "",
             arrivalDate: segment.arrival ?? "",
-            isTransfered: segment.has_transfers ?? false)
+            isTransferred: segment.has_transfers ?? false)
         routes.append(route)
     }
 }

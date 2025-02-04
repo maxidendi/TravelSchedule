@@ -17,7 +17,7 @@ final class StationsListViewModel: ObservableObject {
     //MARK: - Methods
     
     func filteredStations() -> [Station] {
-        return searchText.isEmpty ? city.stations : city.stations.filter{ $0.title.localizedCaseInsensitiveContains(searchText)}
+        searchText.isEmpty ? city.stations : city.stations.filter{ $0.title.localizedCaseInsensitiveContains(searchText)}
     }
 }
 

@@ -12,7 +12,7 @@ struct FiltersView: View {
         filterAfternoon = routesViewModel.departureFilters.contains(.afternoon)
         filterEvening = routesViewModel.departureFilters.contains(.evening)
         filterNight = routesViewModel.departureFilters.contains(.night)
-        switch routesViewModel.isTransferedFilter {
+        switch routesViewModel.isTransferredFilter {
         case .none:
             filterIsTransfered = false
             filterIsNotTransfered = false
@@ -66,6 +66,8 @@ struct FiltersView: View {
                 overlayButton
             }
         }
+        .navigationTitle("")
+        .toolbarRole(.editor)
     }
     
     //MARK: - Methods
@@ -78,14 +80,10 @@ struct FiltersView: View {
     }
     
     private func checkFilters() -> Bool {
-        filterMorning == true ||
-        filterAfternoon == true ||
-        filterEvening == true ||
-        filterNight == true ||
-        filterIsTransfered == true ||
-        filterIsNotTransfered == true ||
+        filterMorning || filterAfternoon || filterEvening ||
+        filterNight || filterIsTransfered || filterIsNotTransfered ||
         !routesViewModel.departureFilters.isEmpty ||
-        routesViewModel.isTransferedFilter != nil
+        routesViewModel.isTransferredFilter != nil
     }
     
     //MARK: - Subviews
@@ -133,16 +131,16 @@ struct FiltersView: View {
         Group {
             Toggle(Transfer.yes.rawValue,
                    isOn: $filterIsTransfered)
-            .onChange(of: filterIsNotTransfered) { newValue in
-                if filterIsTransfered != false {
-                    filterIsTransfered = !newValue
+            .onChange(of: filterIsNotTransfered) { transferred in
+                if filterIsTransfered {
+                    filterIsTransfered = !transferred
                 }
             }
             Toggle(Transfer.no.rawValue,
                    isOn: $filterIsNotTransfered)
-            .onChange(of: filterIsTransfered) { newValue in
-                if filterIsNotTransfered != false {
-                    filterIsNotTransfered = !newValue
+            .onChange(of: filterIsTransfered) { notTransferred in
+                if filterIsNotTransfered {
+                    filterIsNotTransfered = !notTransferred
                 }
             }
         }

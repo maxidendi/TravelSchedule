@@ -6,7 +6,7 @@ struct ErrorView: View {
     var handler: (() -> Void)?
     
     var body: some View {
-        HStack(alignment: .center) {
+        HStack {
             Spacer()
             VStack(alignment: .center, spacing: 16) {
                 switch errorType {

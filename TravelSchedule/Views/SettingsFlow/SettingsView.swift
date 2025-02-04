@@ -18,7 +18,7 @@ struct SettingsView: View {
         VStack {
             Toggle("Темная тема",
                     isOn: $isDarkTheme)
-            .onChange(of: isDarkTheme) { newValue in
+            .onChange(of: isDarkTheme) { _ in
                 viewModel.toggleDarkMode()
             }
             .toggleStyle(SwitchToggleStyle(tint: .ypBlue))

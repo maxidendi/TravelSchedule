@@ -30,7 +30,8 @@ struct RoutesListView: View {
                     titleView
                     routesListView
                 }
-                .padding()
+                .ignoresSafeArea(.all, edges: .bottom)
+                .padding([.horizontal, .top])
                 stubAndButtonView
             case .error(let error):
                 Spacer()

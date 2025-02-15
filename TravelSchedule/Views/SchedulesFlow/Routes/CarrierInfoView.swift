@@ -5,6 +5,7 @@ struct CarrierInfoView: View {
     //MARK: - Properties
     
     let carrier: Carrier
+    
     //MARK: - Body
     
     var body: some View {

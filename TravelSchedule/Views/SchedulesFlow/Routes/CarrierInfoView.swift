@@ -5,7 +5,6 @@ struct CarrierInfoView: View {
     //MARK: - Properties
     
     let carrier: Carrier
-    @EnvironmentObject var router: Router
     
     //MARK: - Body
     
@@ -56,9 +55,5 @@ struct CarrierInfoView: View {
 }
 
 #Preview {
-    CarrierInfoView(carrier: Carrier(
-        logo: "https://yastat.net/s3/rasp/media/data/company/logo/logo.gif",
-        title: "OAO \"FGK\"",
-        email: "fgk@fgk.ru",
-        phone: "+7 499 999 999"))
+    CarrierInfoView(carrier: Carrier(logo: "", title: "", email: "", phone: ""))
 }

@@ -1,14 +1,17 @@
 import Foundation
 import OpenAPIURLSession
+import OpenAPIRuntime
 
 @MainActor
 final class CitiesListViewModel: ObservableObject {
     
     //MARK: - Properties
     
-    @Published var cities: [City] = []
+    @Published private(set) var cities: [City] = []
+    @Published var state : LoadState = .loading 
     @Published var searchText: String = ""
-    @Published var stateMachine = LoadStateMachine()
+
+    private let networkClient = NetworkClient.shared
     
     //MARK: - Methods
     
@@ -17,24 +20,39 @@ final class CitiesListViewModel: ObservableObject {
     }
     
     func getCities() async {
-        stateMachine.state = .loading
+        state = .loading
         cities.removeAll()
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport())
-        let service = StationsListService(
-            client: client,
-            apikey: Constants.API.yandexScheduleAPIKey)
         do {
-            let stations = try await service.getStationsList()
-            stations.countries?
-                .filter { $0.title == "Россия" }
-                .forEach { country in country.regions?.forEach { region in getSettlements(region) }}
-            cities.sort { $0.title < $1.title }
-            stateMachine.state = .loaded
+            let stations = try await networkClient.fetchCities()
+            parseResult(stations)
         } catch {
-            stateMachine.state = .error(.noInternet)
+            if let error = error as? ClientError,
+               let code = error.response?.status.code {
+                switch code {
+                case 400..<500:
+                    state = .error(.badRequest)
+                case 500..<600:
+                    state = .error(.serverError)
+                default:
+                    state = .error(.badRequest)
+                }
+            } else {
+                switch error._code {
+                case NSURLErrorTimedOut, NSURLErrorNotConnectedToInternet:
+                    state = .error(.noInternet)
+                default:
+                    state = .error(.noInternet)
+                }
+            }
         }
+    }
+    
+    private func parseResult(_ stations: StationsList) {
+        stations.countries?
+            .filter { $0.title == "Россия" }
+            .forEach { country in country.regions?.forEach { region in getSettlements(region) }}
+        cities.sort { $0.title < $1.title }
+        state = .loaded
     }
     
     private func getSettlements(_ region: Components.Schemas.Region) {

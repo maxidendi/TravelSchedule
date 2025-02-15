@@ -1,23 +1,21 @@
 import SwiftUI
 import OpenAPIURLSession
 
-@MainActor
 struct ContentView: View {
     
     //MARK: - Properties
     
-    @Binding var isDarkModeEnabled: Bool
-    @StateObject private var store = SearchStore()
-    @StateObject private var citiesViewModel = CitiesListViewModel()
-    @StateObject private var router = Router.shared
+    @State private var path: [Paths] = []
+    @StateObject private var settingsViewModel = SettingsViewModel()
+    @StateObject private var scheduleViewModel = ScheduleViewModel()
     
     //MARK: - Body
     
     var body: some View {
-        NavigationStack(path: $router.path) {
+        NavigationStack(path: $path) {
             TabView {
                 VStack {
-                    ScheduleView(store: store, router: router, citiesViewModel: citiesViewModel)
+                    ScheduleView(path: $path, viewModel: scheduleViewModel)
                     Divider()
                 }
                 .tabItem {
@@ -25,7 +23,7 @@ struct ContentView: View {
                         .renderingMode(.template)
                 }
                 VStack {
-                    SettingsView(isDarkTheme: $isDarkModeEnabled)
+                    SettingsView(viewModel: settingsViewModel)
                     Divider()
                 }
                 .tabItem {
@@ -34,14 +32,24 @@ struct ContentView: View {
                 }
             }
             .accentColor(.ypBlack)
+            .navigationDestination(for: Paths.self) { path in
+                switch path {
+                case .citiesList(let direction):
+                    CitiesListView(direction: direction, path: $path)
+                case .stationsList(let city, let direction):
+                    StationsListView(direction: direction, city: city, path: $path)
+                        .environmentObject(scheduleViewModel)
+                case .carriersList:
+                    RoutesListView(path: $path)
+                        .environmentObject(scheduleViewModel)
+                }
+            }
         }
         .tint(.ypBlack)
-        .task {
-            await citiesViewModel.getCities()
-        }
+        .environment(\.colorScheme, settingsViewModel.isDarkModeEnabled ? .dark : .light)
     }
 }
 
 #Preview {
-    ContentView(isDarkModeEnabled: .constant(false))
+    ContentView()
 }

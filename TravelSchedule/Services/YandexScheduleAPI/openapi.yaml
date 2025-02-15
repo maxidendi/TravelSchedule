@@ -115,6 +115,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoutesWithDestination'
+        "400":
+          $ref: '#/components/responses/400BadRequest'
+        "500":
+          $ref: '#/components/responses/500ServerError'
   /v3.0/schedule/:
     get:
       tags:
@@ -349,6 +353,11 @@ paths:
                 $ref: '#/components/schemas/StationsList'
             text/html:
               schema: {}
+        "400":
+          $ref: '#/components/responses/400BadRequest'
+        "500":
+          $ref: '#/components/responses/500ServerError'
+            
   /v3.0/copyright/:
     get:
       tags:
@@ -376,7 +385,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/Copyright'
 components:
+  responses:
+    400BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+            
+    500ServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+  
+    Error:
+      type: object
+      properties:
+        text:
+          type: string
+        http_code:
+          type: string
+        error_code:
+          type: string
+        request:
+          type: string
+  
     Pagination:
       type: object
       properties:

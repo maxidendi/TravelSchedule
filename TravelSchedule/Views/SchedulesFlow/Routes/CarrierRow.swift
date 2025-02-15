@@ -32,7 +32,7 @@ struct CarrierRow: View {
                             EmptyView()
                         }
                     }
-                    if route.isTransfered {
+                    if route.isTransferred {
                         VStack(alignment: .leading) {
                             Text(route.carrier.title)
                                 .font(.system(size: 17, weight: .regular))
@@ -85,8 +85,8 @@ struct CarrierRow: View {
                                         title: "ОАО \"РЖД\"",
                                         email: "i.lozgkina@yandex.ru",
                                         phone: "+7 (904) 329-27-71"),
-                              transfer: "С пересадкой в Костроме",
-                              departureDate: "2025-01-14T22:30:00+05:00",
+                            transfer: "С пересадкой в Костроме",
+                            departureDate: "2025-01-14T22:30:00+05:00",
                             arrivalDate: "2025-01-15T08:15:00+05:00",
-                            isTransfered: false))
+                            isTransferred: false))
 }

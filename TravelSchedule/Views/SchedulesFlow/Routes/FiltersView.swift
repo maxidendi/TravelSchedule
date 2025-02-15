@@ -5,16 +5,14 @@ struct FiltersView: View {
     //MARK: - Init
     
     init(
-        departureFilters: Binding<Set<DepartureTimes>>,
-        isTransfered: Binding<Bool?>
+        routesViewModel: RoutesListViewModel
     ) {
-        self._departureFilters = departureFilters
-        self._isTransferedFilter = isTransfered
-        self.filterMorning = departureFilters.wrappedValue.contains(.morning)
-        self.filterAfternoon = departureFilters.wrappedValue.contains(.afternoon)
-        self.filterEvening = departureFilters.wrappedValue.contains(.evening)
-        self.filterNight = departureFilters.wrappedValue.contains(.night)
-        switch isTransfered.wrappedValue {
+        self.routesViewModel = routesViewModel
+        filterMorning = routesViewModel.departureFilters.contains(.morning)
+        filterAfternoon = routesViewModel.departureFilters.contains(.afternoon)
+        filterEvening = routesViewModel.departureFilters.contains(.evening)
+        filterNight = routesViewModel.departureFilters.contains(.night)
+        switch routesViewModel.isTransferredFilter {
         case .none:
             filterIsTransfered = false
             filterIsNotTransfered = false
@@ -27,9 +25,8 @@ struct FiltersView: View {
     //MARK: - Properties
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var store: SearchStore
-    @Binding var departureFilters: Set<DepartureTimes>
-    @Binding var isTransferedFilter: Bool?
+    @ObservedObject var routesViewModel: RoutesListViewModel
+
     @State private var filterMorning: Bool
     @State private var filterAfternoon: Bool
     @State private var filterEvening: Bool
@@ -37,16 +34,16 @@ struct FiltersView: View {
     @State private var filterIsTransfered: Bool
     @State private var filterIsNotTransfered: Bool
     
-    //MARK: - Methods
-    
-    private func setFilters() {
-        if filterMorning == true { departureFilters.insert(.morning) } else { departureFilters.remove(.morning) }
-        if filterAfternoon == true { departureFilters.insert(.afternoon) } else { departureFilters.remove(.afternoon) }
-        if filterEvening == true { departureFilters.insert(.evening) } else { departureFilters.remove(.evening) }
-        if filterNight == true { departureFilters.insert(.night) } else { departureFilters.remove(.night) }
-        if filterIsTransfered == true { isTransferedFilter = true }
-        if filterIsNotTransfered == true { isTransferedFilter = false }
-        if filterIsTransfered == false && filterIsNotTransfered == false { isTransferedFilter = nil }
+    private var filters: Set<DepartureTimes> {
+        var filters: Set<DepartureTimes> = []
+        if filterMorning { filters.insert(.morning) }
+        if filterAfternoon { filters.insert(.afternoon) }
+        if filterEvening { filters.insert(.evening) }
+        if filterNight { filters.insert(.night) }
+        return filters
+    }
+    private var isTransfered: Bool? {
+        filterIsTransfered ? true : filterIsNotTransfered ? false : nil
     }
     
     //MARK: - Body
@@ -55,86 +52,104 @@ struct FiltersView: View {
         ZStack {
             ScrollView {
                 LazyVStack(alignment: .leading) {
-                    Text("Время отправления")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.ypBlack)
-                        .padding(.vertical, 16)
-                    Group {
-                        Toggle(DepartureTimes.morning.rawValue,
-                               isOn: $filterMorning)
-                        Toggle(DepartureTimes.afternoon.rawValue,
-                               isOn: $filterAfternoon)
-                        Toggle(DepartureTimes.evening.rawValue,
-                               isOn: $filterEvening)
-                        Toggle(DepartureTimes.night.rawValue,
-                               isOn: $filterNight)
-                    }
-                    .frame(height: 60)
-                    .font(.system(size: 17, weight: .regular))
-                    .toggleStyle(CheckboxStyle(imageConfig: .box))
-                    Text("Показывать варианты с пересадками")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.ypBlack)
-                        .padding(.vertical, 16)
-                    Group {
-                        Toggle(Transfer.yes.rawValue,
-                               isOn: $filterIsTransfered)
-                        .onChange(of: filterIsNotTransfered) { newValue in
-                            if filterIsTransfered != false {
-                                filterIsTransfered = !newValue
-                            }
-                        }
-                        Toggle(Transfer.no.rawValue,
-                               isOn: $filterIsNotTransfered)
-                        .onChange(of: filterIsTransfered) { newValue in
-                            if filterIsNotTransfered != false {
-                                filterIsNotTransfered = !newValue
-                            }
-                        }
-                    }
-                    .frame(height: 60)
-                    .font(.system(size: 17, weight: .regular))
-                    .toggleStyle(CheckboxStyle(imageConfig: .circle))
+                    headerText("Время отправления")
+                    checkBoxToggles
+                    headerText("Показывать варианты с пересадками")
+                    radioToggles
                 }
                 .padding(.horizontal ,16)
                 Spacer(minLength: 60)
             }
             .scrollIndicators(.hidden)
             .padding(.bottom, 16)
-            if filterMorning == true ||
-                filterAfternoon == true ||
-                filterEvening == true ||
-                filterNight == true ||
-                filterIsTransfered == true ||
-                filterIsNotTransfered == true ||
-                !departureFilters.isEmpty ||
-                isTransferedFilter != nil {
-                VStack {
-                    Spacer()
-                    Button(
-                        action: {
-                            setFilters()
-                            dismiss()
-                        },
-                        label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 16)
-                                    .padding(.horizontal, 16)
-                                    .frame(height: 60)
-                                    .foregroundColor(.ypBlue)
-                                Text("Применить")
-                                    .font(.system(size: 17, weight: .bold))
-                                    .foregroundColor(.ypWhiteUniversal)
-                            }
-                        })
-                    .padding(.bottom, 24)
+            if checkFilters() {
+                overlayButton
+            }
+        }
+        .navigationTitle("")
+        .toolbarRole(.editor)
+    }
+    
+    //MARK: - Methods
+    
+    private func headerText(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 24, weight: .bold))
+            .foregroundColor(.ypBlack)
+            .padding(.vertical, 16)
+    }
+    
+    private func checkFilters() -> Bool {
+        filterMorning || filterAfternoon || filterEvening ||
+        filterNight || filterIsTransfered || filterIsNotTransfered ||
+        !routesViewModel.departureFilters.isEmpty ||
+        routesViewModel.isTransferredFilter != nil
+    }
+    
+    //MARK: - Subviews
+    
+    private var overlayButton: some View {
+        VStack {
+            Spacer()
+            Button(
+                action: {
+                    routesViewModel.setFilters(filters, isTransfered)
+                    dismiss()
+                },
+                label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .padding(.horizontal, 16)
+                            .frame(height: 60)
+                            .foregroundColor(.ypBlue)
+                        Text("Применить")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(.ypWhiteUniversal)
+                    }
+                })
+            .padding(.bottom, 24)
+        }
+    }
+    
+    private var checkBoxToggles: some View {
+        Group {
+            Toggle(DepartureTimes.morning.rawValue,
+                   isOn: $filterMorning)
+            Toggle(DepartureTimes.afternoon.rawValue,
+                   isOn: $filterAfternoon)
+            Toggle(DepartureTimes.evening.rawValue,
+                   isOn: $filterEvening)
+            Toggle(DepartureTimes.night.rawValue,
+                   isOn: $filterNight)
+        }
+        .frame(height: 60)
+        .font(.system(size: 17, weight: .regular))
+        .toggleStyle(CheckboxStyle(imageConfig: .box))
+    }
+    
+    private var radioToggles: some View {
+        Group {
+            Toggle(Transfer.yes.rawValue,
+                   isOn: $filterIsTransfered)
+            .onChange(of: filterIsNotTransfered) { transferred in
+                if filterIsTransfered {
+                    filterIsTransfered = !transferred
+                }
+            }
+            Toggle(Transfer.no.rawValue,
+                   isOn: $filterIsNotTransfered)
+            .onChange(of: filterIsTransfered) { notTransferred in
+                if filterIsNotTransfered {
+                    filterIsNotTransfered = !notTransferred
                 }
             }
         }
+        .frame(height: 60)
+        .font(.system(size: 17, weight: .regular))
+        .toggleStyle(CheckboxStyle(imageConfig: .circle))
     }
 }
 
 #Preview {
-    FiltersView(departureFilters: .constant([]), isTransfered: .constant(.none))
-        .environmentObject(SearchStore())
+    FiltersView(routesViewModel: RoutesListViewModel())
 }
